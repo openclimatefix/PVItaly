@@ -1,0 +1,6 @@
+xarray
+httpx
+planetary-computer
+tqdm
+pystac-client
+cfgrib  # may need to apt install libeccodes-dev libeccodes-tools
