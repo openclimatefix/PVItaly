@@ -1,0 +1,696 @@
+4LFTX.surface                                               Best (4 layer) Lifted Index
+ABSV.0.01_mb                                                Absolute Vorticity
+ABSV.0.02_mb                                                Absolute Vorticity
+ABSV.0.04_mb                                                Absolute Vorticity
+ABSV.0.07_mb                                                Absolute Vorticity
+ABSV.0.1_mb                                                 Absolute Vorticity
+ABSV.0.2_mb                                                 Absolute Vorticity
+ABSV.0.4_mb                                                 Absolute Vorticity
+ABSV.0.7_mb                                                 Absolute Vorticity
+ABSV.1000_mb                                                Absolute Vorticity
+ABSV.100_mb                                                 Absolute Vorticity
+ABSV.10_mb                                                  Absolute Vorticity
+ABSV.150_mb                                                 Absolute Vorticity
+ABSV.15_mb                                                  Absolute Vorticity
+ABSV.1_mb                                                   Absolute Vorticity
+ABSV.200_mb                                                 Absolute Vorticity
+ABSV.20_mb                                                  Absolute Vorticity
+ABSV.250_mb                                                 Absolute Vorticity
+ABSV.2_mb                                                   Absolute Vorticity
+ABSV.300_mb                                                 Absolute Vorticity
+ABSV.30_mb                                                  Absolute Vorticity
+ABSV.350_mb                                                 Absolute Vorticity
+ABSV.3_mb                                                   Absolute Vorticity
+ABSV.400_mb                                                 Absolute Vorticity
+ABSV.40_mb                                                  Absolute Vorticity
+ABSV.450_mb                                                 Absolute Vorticity
+ABSV.500_mb                                                 Absolute Vorticity
+ABSV.50_mb                                                  Absolute Vorticity
+ABSV.550_mb                                                 Absolute Vorticity
+ABSV.5_mb                                                   Absolute Vorticity
+ABSV.600_mb                                                 Absolute Vorticity
+ABSV.650_mb                                                 Absolute Vorticity
+ABSV.700_mb                                                 Absolute Vorticity
+ABSV.70_mb                                                  Absolute Vorticity
+ABSV.750_mb                                                 Absolute Vorticity
+ABSV.7_mb                                                   Absolute Vorticity
+ABSV.800_mb                                                 Absolute Vorticity
+ABSV.850_mb                                                 Absolute Vorticity
+ABSV.900_mb                                                 Absolute Vorticity
+ABSV.925_mb                                                 Absolute Vorticity
+ABSV.950_mb                                                 Absolute Vorticity
+ABSV.975_mb                                                 Absolute Vorticity
+APTMP.2_m_above_ground                                      Apparent Temperature
+CAPE.180-0_mb_above_ground                                  Convective Available Potential Energy
+CAPE.255-0_mb_above_ground                                  Convective Available Potential Energy
+CAPE.90-0_mb_above_ground                                   Convective Available Potential Energy
+CAPE.surface                                                Convective Available Potential Energy
+CFRZR.surface                                               Categorical Freezing Rain
+CICEP.surface                                               Categorical Ice Pellets
+CIN.180-0_mb_above_ground                                   Convective Inhibition
+CIN.255-0_mb_above_ground                                   Convective Inhibition
+CIN.90-0_mb_above_ground                                    Convective Inhibition
+CIN.surface                                                 Convective Inhibition
+CLMR.1000_mb                                                Cloud Mixing Ratio
+CLMR.100_mb                                                 Cloud Mixing Ratio
+CLMR.150_mb                                                 Cloud Mixing Ratio
+CLMR.1_hybrid_level                                         Cloud Mixing Ratio
+CLMR.200_mb                                                 Cloud Mixing Ratio
+CLMR.250_mb                                                 Cloud Mixing Ratio
+CLMR.300_mb                                                 Cloud Mixing Ratio
+CLMR.350_mb                                                 Cloud Mixing Ratio
+CLMR.400_mb                                                 Cloud Mixing Ratio
+CLMR.450_mb                                                 Cloud Mixing Ratio
+CLMR.500_mb                                                 Cloud Mixing Ratio
+CLMR.50_mb                                                  Cloud Mixing Ratio
+CLMR.550_mb                                                 Cloud Mixing Ratio
+CLMR.600_mb                                                 Cloud Mixing Ratio
+CLMR.650_mb                                                 Cloud Mixing Ratio
+CLMR.700_mb                                                 Cloud Mixing Ratio
+CLMR.750_mb                                                 Cloud Mixing Ratio
+CLMR.800_mb                                                 Cloud Mixing Ratio
+CLMR.850_mb                                                 Cloud Mixing Ratio
+CLMR.900_mb                                                 Cloud Mixing Ratio
+CLMR.925_mb                                                 Cloud Mixing Ratio
+CLMR.950_mb                                                 Cloud Mixing Ratio
+CLMR.975_mb                                                 Cloud Mixing Ratio
+CNWAT.surface                                               Plant Canopy Surface Water
+CPOFP.surface                                               Percent frozen precipitation
+CRAIN.surface                                               Categorical Rain
+CSNOW.surface                                               Categorical Snow
+CWAT.entire_atmosphere_considered_as_a_single_layer         Cloud Water
+DPT.2_m_above_ground                                        Dew Point Temperature
+DZDT.0.01_mb                                                Vertical Velocity (Geometric)
+DZDT.0.02_mb                                                Vertical Velocity (Geometric)
+DZDT.0.04_mb                                                Vertical Velocity (Geometric)
+DZDT.0.07_mb                                                Vertical Velocity (Geometric)
+DZDT.0.1_mb                                                 Vertical Velocity (Geometric)
+DZDT.0.2_mb                                                 Vertical Velocity (Geometric)
+DZDT.0.4_mb                                                 Vertical Velocity (Geometric)
+DZDT.0.7_mb                                                 Vertical Velocity (Geometric)
+DZDT.1000_mb                                                Vertical Velocity (Geometric)
+DZDT.100_mb                                                 Vertical Velocity (Geometric)
+DZDT.10_mb                                                  Vertical Velocity (Geometric)
+DZDT.150_mb                                                 Vertical Velocity (Geometric)
+DZDT.15_mb                                                  Vertical Velocity (Geometric)
+DZDT.1_mb                                                   Vertical Velocity (Geometric)
+DZDT.200_mb                                                 Vertical Velocity (Geometric)
+DZDT.20_mb                                                  Vertical Velocity (Geometric)
+DZDT.250_mb                                                 Vertical Velocity (Geometric)
+DZDT.2_mb                                                   Vertical Velocity (Geometric)
+DZDT.300_mb                                                 Vertical Velocity (Geometric)
+DZDT.30_mb                                                  Vertical Velocity (Geometric)
+DZDT.350_mb                                                 Vertical Velocity (Geometric)
+DZDT.3_mb                                                   Vertical Velocity (Geometric)
+DZDT.400_mb                                                 Vertical Velocity (Geometric)
+DZDT.40_mb                                                  Vertical Velocity (Geometric)
+DZDT.450_mb                                                 Vertical Velocity (Geometric)
+DZDT.500_mb                                                 Vertical Velocity (Geometric)
+DZDT.50_mb                                                  Vertical Velocity (Geometric)
+DZDT.550_mb                                                 Vertical Velocity (Geometric)
+DZDT.5_mb                                                   Vertical Velocity (Geometric)
+DZDT.600_mb                                                 Vertical Velocity (Geometric)
+DZDT.650_mb                                                 Vertical Velocity (Geometric)
+DZDT.700_mb                                                 Vertical Velocity (Geometric)
+DZDT.70_mb                                                  Vertical Velocity (Geometric)
+DZDT.750_mb                                                 Vertical Velocity (Geometric)
+DZDT.7_mb                                                   Vertical Velocity (Geometric)
+DZDT.800_mb                                                 Vertical Velocity (Geometric)
+DZDT.850_mb                                                 Vertical Velocity (Geometric)
+DZDT.900_mb                                                 Vertical Velocity (Geometric)
+DZDT.925_mb                                                 Vertical Velocity (Geometric)
+DZDT.950_mb                                                 Vertical Velocity (Geometric)
+DZDT.975_mb                                                 Vertical Velocity (Geometric)
+FLDCP.surface                                               Field Capacity
+FRICV.surface                                               Frictional Velocity
+GRLE.1000_mb                                                Graupel
+GRLE.100_mb                                                 Graupel
+GRLE.150_mb                                                 Graupel
+GRLE.1_hybrid_level                                         Graupel
+GRLE.200_mb                                                 Graupel
+GRLE.250_mb                                                 Graupel
+GRLE.300_mb                                                 Graupel
+GRLE.350_mb                                                 Graupel
+GRLE.400_mb                                                 Graupel
+GRLE.450_mb                                                 Graupel
+GRLE.500_mb                                                 Graupel
+GRLE.50_mb                                                  Graupel
+GRLE.550_mb                                                 Graupel
+GRLE.600_mb                                                 Graupel
+GRLE.650_mb                                                 Graupel
+GRLE.700_mb                                                 Graupel
+GRLE.750_mb                                                 Graupel
+GRLE.800_mb                                                 Graupel
+GRLE.850_mb                                                 Graupel
+GRLE.900_mb                                                 Graupel
+GRLE.925_mb                                                 Graupel
+GRLE.950_mb                                                 Graupel
+GRLE.975_mb                                                 Graupel
+GUST.surface                                                Wind Speed (Gust)
+HCDC.high_cloud_layer                                       High Cloud Cover
+HGT.0.01_mb                                                 Geopotential Height
+HGT.0.02_mb                                                 Geopotential Height
+HGT.0.04_mb                                                 Geopotential Height
+HGT.0.07_mb                                                 Geopotential Height
+HGT.0.1_mb                                                  Geopotential Height
+HGT.0.2_mb                                                  Geopotential Height
+HGT.0.4_mb                                                  Geopotential Height
+HGT.0.7_mb                                                  Geopotential Height
+HGT.0C_isotherm                                             Geopotential Height
+HGT.1000_mb                                                 Geopotential Height
+HGT.100_mb                                                  Geopotential Height
+HGT.10_mb                                                   Geopotential Height
+HGT.150_mb                                                  Geopotential Height
+HGT.15_mb                                                   Geopotential Height
+HGT.1_mb                                                    Geopotential Height
+HGT.200_mb                                                  Geopotential Height
+HGT.20_mb                                                   Geopotential Height
+HGT.250_mb                                                  Geopotential Height
+HGT.2_mb                                                    Geopotential Height
+HGT.300_mb                                                  Geopotential Height
+HGT.30_mb                                                   Geopotential Height
+HGT.350_mb                                                  Geopotential Height
+HGT.3_mb                                                    Geopotential Height
+HGT.400_mb                                                  Geopotential Height
+HGT.40_mb                                                   Geopotential Height
+HGT.450_mb                                                  Geopotential Height
+HGT.500_mb                                                  Geopotential Height
+HGT.50_mb                                                   Geopotential Height
+HGT.550_mb                                                  Geopotential Height
+HGT.5_mb                                                    Geopotential Height
+HGT.600_mb                                                  Geopotential Height
+HGT.650_mb                                                  Geopotential Height
+HGT.700_mb                                                  Geopotential Height
+HGT.70_mb                                                   Geopotential Height
+HGT.750_mb                                                  Geopotential Height
+HGT.7_mb                                                    Geopotential Height
+HGT.800_mb                                                  Geopotential Height
+HGT.850_mb                                                  Geopotential Height
+HGT.900_mb                                                  Geopotential Height
+HGT.925_mb                                                  Geopotential Height
+HGT.950_mb                                                  Geopotential Height
+HGT.975_mb                                                  Geopotential Height
+HGT.PV2e06Km2kgs_surface                                    Geopotential Height
+HGT.PVNeg2e06Km2kgs_surface                                 Geopotential Height
+HGT.cloud_ceiling                                           Geopotential Height
+HGT.highest_tropospheric_freezing_level                     Geopotential Height
+HGT.max_wind                                                Geopotential Height
+HGT.surface                                                 Geopotential Height
+HGT.tropopause                                              Geopotential Height
+HINDEX.surface                                              Haines Index
+HLCY.3000-0_m_above_ground                                  Storm Relative Helicity
+HPBL.surface                                                Planetary Boundary Layer Height
+ICAHT.max_wind                                              ICAO Standard Atmosphere Reference Height
+ICAHT.tropopause                                            ICAO Standard Atmosphere Reference Height
+ICEC.surface                                                Ice Cover
+ICEG.10_m_above_mean_sea_level                              Ice Growth Rate
+ICETK.surface                                               Ice Thickness
+ICETMP.surface                                              Ice Temperature
+ICMR.1000_mb                                                Ice Water Mixing Ratio
+ICMR.100_mb                                                 Ice Water Mixing Ratio
+ICMR.150_mb                                                 Ice Water Mixing Ratio
+ICMR.1_hybrid_level                                         Ice Water Mixing Ratio
+ICMR.200_mb                                                 Ice Water Mixing Ratio
+ICMR.250_mb                                                 Ice Water Mixing Ratio
+ICMR.300_mb                                                 Ice Water Mixing Ratio
+ICMR.350_mb                                                 Ice Water Mixing Ratio
+ICMR.400_mb                                                 Ice Water Mixing Ratio
+ICMR.450_mb                                                 Ice Water Mixing Ratio
+ICMR.500_mb                                                 Ice Water Mixing Ratio
+ICMR.50_mb                                                  Ice Water Mixing Ratio
+ICMR.550_mb                                                 Ice Water Mixing Ratio
+ICMR.600_mb                                                 Ice Water Mixing Ratio
+ICMR.650_mb                                                 Ice Water Mixing Ratio
+ICMR.700_mb                                                 Ice Water Mixing Ratio
+ICMR.750_mb                                                 Ice Water Mixing Ratio
+ICMR.800_mb                                                 Ice Water Mixing Ratio
+ICMR.850_mb                                                 Ice Water Mixing Ratio
+ICMR.900_mb                                                 Ice Water Mixing Ratio
+ICMR.925_mb                                                 Ice Water Mixing Ratio
+ICMR.950_mb                                                 Ice Water Mixing Ratio
+ICMR.975_mb                                                 Ice Water Mixing Ratio
+LAND.surface                                                Land Cover (0=sea, 1=land)
+LCDC.low_cloud_layer                                        Low Cloud Cover
+LFTX.surface                                                Surface Lifted Index
+MCDC.middle_cloud_layer                                     Medium Cloud Cover
+MSLET.mean_sea_level                                        MSLP (Eta model reduction)
+O3MR.0.01_mb                                                Ozone Mixing Ratio
+O3MR.0.02_mb                                                Ozone Mixing Ratio
+O3MR.0.04_mb                                                Ozone Mixing Ratio
+O3MR.0.07_mb                                                Ozone Mixing Ratio
+O3MR.0.1_mb                                                 Ozone Mixing Ratio
+O3MR.0.2_mb                                                 Ozone Mixing Ratio
+O3MR.0.4_mb                                                 Ozone Mixing Ratio
+O3MR.0.7_mb                                                 Ozone Mixing Ratio
+O3MR.1000_mb                                                Ozone Mixing Ratio
+O3MR.100_mb                                                 Ozone Mixing Ratio
+O3MR.10_mb                                                  Ozone Mixing Ratio
+O3MR.150_mb                                                 Ozone Mixing Ratio
+O3MR.15_mb                                                  Ozone Mixing Ratio
+O3MR.1_mb                                                   Ozone Mixing Ratio
+O3MR.200_mb                                                 Ozone Mixing Ratio
+O3MR.20_mb                                                  Ozone Mixing Ratio
+O3MR.250_mb                                                 Ozone Mixing Ratio
+O3MR.2_mb                                                   Ozone Mixing Ratio
+O3MR.300_mb                                                 Ozone Mixing Ratio
+O3MR.30_mb                                                  Ozone Mixing Ratio
+O3MR.350_mb                                                 Ozone Mixing Ratio
+O3MR.3_mb                                                   Ozone Mixing Ratio
+O3MR.400_mb                                                 Ozone Mixing Ratio
+O3MR.40_mb                                                  Ozone Mixing Ratio
+O3MR.450_mb                                                 Ozone Mixing Ratio
+O3MR.500_mb                                                 Ozone Mixing Ratio
+O3MR.50_mb                                                  Ozone Mixing Ratio
+O3MR.550_mb                                                 Ozone Mixing Ratio
+O3MR.5_mb                                                   Ozone Mixing Ratio
+O3MR.600_mb                                                 Ozone Mixing Ratio
+O3MR.650_mb                                                 Ozone Mixing Ratio
+O3MR.700_mb                                                 Ozone Mixing Ratio
+O3MR.70_mb                                                  Ozone Mixing Ratio
+O3MR.750_mb                                                 Ozone Mixing Ratio
+O3MR.7_mb                                                   Ozone Mixing Ratio
+O3MR.800_mb                                                 Ozone Mixing Ratio
+O3MR.850_mb                                                 Ozone Mixing Ratio
+O3MR.900_mb                                                 Ozone Mixing Ratio
+O3MR.925_mb                                                 Ozone Mixing Ratio
+O3MR.950_mb                                                 Ozone Mixing Ratio
+O3MR.975_mb                                                 Ozone Mixing Ratio
+PLPL.255-0_mb_above_ground                                  Pressure of level from which parcel was lifted
+POT.0.995_sigma_level                                       Potential Temperature
+PRATE.surface                                               Precipitation Rate
+PRES.80_m_above_ground                                      Pressure
+PRES.PV2e06Km2kgs_surface                                   Pressure
+PRES.PVNeg2e06Km2kgs_surface                                Pressure
+PRES.max_wind                                               Pressure
+PRES.surface                                                Pressure
+PRES.tropopause                                             Pressure
+PRMSL.mean_sea_level                                        Pressure Reduced to MSL
+PWAT.entire_atmosphere_considered_as_a_single_layer         Precipitable Water
+REFC.entire_atmosphere                                      Composite reflectivity
+REFD.1000_m_above_ground                                    Reflectivity
+REFD.1_hybrid_level                                         Reflectivity
+REFD.2_hybrid_level                                         Reflectivity
+REFD.4000_m_above_ground                                    Reflectivity
+RH.0.01_mb                                                  Relative Humidity
+RH.0.02_mb                                                  Relative Humidity
+RH.0.04_mb                                                  Relative Humidity
+RH.0.07_mb                                                  Relative Humidity
+RH.0.1_mb                                                   Relative Humidity
+RH.0.2_mb                                                   Relative Humidity
+RH.0.33-1_sigma_layer                                       Relative Humidity
+RH.0.44-0.72_sigma_layer                                    Relative Humidity
+RH.0.44-1_sigma_layer                                       Relative Humidity
+RH.0.4_mb                                                   Relative Humidity
+RH.0.72-0.94_sigma_layer                                    Relative Humidity
+RH.0.7_mb                                                   Relative Humidity
+RH.0.995_sigma_level                                        Relative Humidity
+RH.0C_isotherm                                              Relative Humidity
+RH.1000_mb                                                  Relative Humidity
+RH.100_mb                                                   Relative Humidity
+RH.10_mb                                                    Relative Humidity
+RH.150_mb                                                   Relative Humidity
+RH.15_mb                                                    Relative Humidity
+RH.1_mb                                                     Relative Humidity
+RH.200_mb                                                   Relative Humidity
+RH.20_mb                                                    Relative Humidity
+RH.250_mb                                                   Relative Humidity
+RH.2_m_above_ground                                         Relative Humidity
+RH.2_mb                                                     Relative Humidity
+RH.30-0_mb_above_ground                                     Relative Humidity
+RH.300_mb                                                   Relative Humidity
+RH.30_mb                                                    Relative Humidity
+RH.350_mb                                                   Relative Humidity
+RH.3_mb                                                     Relative Humidity
+RH.400_mb                                                   Relative Humidity
+RH.40_mb                                                    Relative Humidity
+RH.450_mb                                                   Relative Humidity
+RH.500_mb                                                   Relative Humidity
+RH.50_mb                                                    Relative Humidity
+RH.550_mb                                                   Relative Humidity
+RH.5_mb                                                     Relative Humidity
+RH.600_mb                                                   Relative Humidity
+RH.650_mb                                                   Relative Humidity
+RH.700_mb                                                   Relative Humidity
+RH.70_mb                                                    Relative Humidity
+RH.750_mb                                                   Relative Humidity
+RH.7_mb                                                     Relative Humidity
+RH.800_mb                                                   Relative Humidity
+RH.850_mb                                                   Relative Humidity
+RH.900_mb                                                   Relative Humidity
+RH.925_mb                                                   Relative Humidity
+RH.950_mb                                                   Relative Humidity
+RH.975_mb                                                   Relative Humidity
+RH.entire_atmosphere_considered_as_a_single_layer           Relative Humidity
+RH.highest_tropospheric_freezing_level                      Relative Humidity
+RWMR.1000_mb                                                Rain Mixing Ratio
+RWMR.100_mb                                                 Rain Mixing Ratio
+RWMR.150_mb                                                 Rain Mixing Ratio
+RWMR.1_hybrid_level                                         Rain Mixing Ratio
+RWMR.200_mb                                                 Rain Mixing Ratio
+RWMR.250_mb                                                 Rain Mixing Ratio
+RWMR.300_mb                                                 Rain Mixing Ratio
+RWMR.350_mb                                                 Rain Mixing Ratio
+RWMR.400_mb                                                 Rain Mixing Ratio
+RWMR.450_mb                                                 Rain Mixing Ratio
+RWMR.500_mb                                                 Rain Mixing Ratio
+RWMR.50_mb                                                  Rain Mixing Ratio
+RWMR.550_mb                                                 Rain Mixing Ratio
+RWMR.600_mb                                                 Rain Mixing Ratio
+RWMR.650_mb                                                 Rain Mixing Ratio
+RWMR.700_mb                                                 Rain Mixing Ratio
+RWMR.750_mb                                                 Rain Mixing Ratio
+RWMR.800_mb                                                 Rain Mixing Ratio
+RWMR.850_mb                                                 Rain Mixing Ratio
+RWMR.900_mb                                                 Rain Mixing Ratio
+RWMR.925_mb                                                 Rain Mixing Ratio
+RWMR.950_mb                                                 Rain Mixing Ratio
+RWMR.975_mb                                                 Rain Mixing Ratio
+SFCR.surface                                                Surface Roughness
+SNMR.1000_mb                                                Snow Mixing Ratio
+SNMR.100_mb                                                 Snow Mixing Ratio
+SNMR.150_mb                                                 Snow Mixing Ratio
+SNMR.1_hybrid_level                                         Snow Mixing Ratio
+SNMR.200_mb                                                 Snow Mixing Ratio
+SNMR.250_mb                                                 Snow Mixing Ratio
+SNMR.300_mb                                                 Snow Mixing Ratio
+SNMR.350_mb                                                 Snow Mixing Ratio
+SNMR.400_mb                                                 Snow Mixing Ratio
+SNMR.450_mb                                                 Snow Mixing Ratio
+SNMR.500_mb                                                 Snow Mixing Ratio
+SNMR.50_mb                                                  Snow Mixing Ratio
+SNMR.550_mb                                                 Snow Mixing Ratio
+SNMR.600_mb                                                 Snow Mixing Ratio
+SNMR.650_mb                                                 Snow Mixing Ratio
+SNMR.700_mb                                                 Snow Mixing Ratio
+SNMR.750_mb                                                 Snow Mixing Ratio
+SNMR.800_mb                                                 Snow Mixing Ratio
+SNMR.850_mb                                                 Snow Mixing Ratio
+SNMR.900_mb                                                 Snow Mixing Ratio
+SNMR.925_mb                                                 Snow Mixing Ratio
+SNMR.950_mb                                                 Snow Mixing Ratio
+SNMR.975_mb                                                 Snow Mixing Ratio
+SNOD.surface                                                Snow Depth
+SOILL.0-0.1_m_below_ground                                  Liquid Volumetric Soil Moisture (non Frozen)
+SOILL.0.1-0.4_m_below_ground                                Liquid Volumetric Soil Moisture (non Frozen)
+SOILL.0.4-1_m_below_ground                                  Liquid Volumetric Soil Moisture (non Frozen)
+SOILL.1-2_m_below_ground                                    Liquid Volumetric Soil Moisture (non Frozen)
+SOILW.0-0.1_m_below_ground                                  Volumetric Soil Moisture Content
+SOILW.0.1-0.4_m_below_ground                                Volumetric Soil Moisture Content
+SOILW.0.4-1_m_below_ground                                  Volumetric Soil Moisture Content
+SOILW.1-2_m_below_ground                                    Volumetric Soil Moisture Content
+SOTYP.surface                                               Soil Type
+SPFH.0.01_mb                                                Specific Humidity
+SPFH.0.02_mb                                                Specific Humidity
+SPFH.0.04_mb                                                Specific Humidity
+SPFH.0.07_mb                                                Specific Humidity
+SPFH.0.1_mb                                                 Specific Humidity
+SPFH.0.2_mb                                                 Specific Humidity
+SPFH.0.4_mb                                                 Specific Humidity
+SPFH.0.7_mb                                                 Specific Humidity
+SPFH.1000_mb                                                Specific Humidity
+SPFH.100_mb                                                 Specific Humidity
+SPFH.10_mb                                                  Specific Humidity
+SPFH.150_mb                                                 Specific Humidity
+SPFH.15_mb                                                  Specific Humidity
+SPFH.1_mb                                                   Specific Humidity
+SPFH.200_mb                                                 Specific Humidity
+SPFH.20_mb                                                  Specific Humidity
+SPFH.250_mb                                                 Specific Humidity
+SPFH.2_m_above_ground                                       Specific Humidity
+SPFH.2_mb                                                   Specific Humidity
+SPFH.30-0_mb_above_ground                                   Specific Humidity
+SPFH.300_mb                                                 Specific Humidity
+SPFH.30_mb                                                  Specific Humidity
+SPFH.350_mb                                                 Specific Humidity
+SPFH.3_mb                                                   Specific Humidity
+SPFH.400_mb                                                 Specific Humidity
+SPFH.40_mb                                                  Specific Humidity
+SPFH.450_mb                                                 Specific Humidity
+SPFH.500_mb                                                 Specific Humidity
+SPFH.50_mb                                                  Specific Humidity
+SPFH.550_mb                                                 Specific Humidity
+SPFH.5_mb                                                   Specific Humidity
+SPFH.600_mb                                                 Specific Humidity
+SPFH.650_mb                                                 Specific Humidity
+SPFH.700_mb                                                 Specific Humidity
+SPFH.70_mb                                                  Specific Humidity
+SPFH.750_mb                                                 Specific Humidity
+SPFH.7_mb                                                   Specific Humidity
+SPFH.800_mb                                                 Specific Humidity
+SPFH.80_m_above_ground                                      Specific Humidity
+SPFH.850_mb                                                 Specific Humidity
+SPFH.900_mb                                                 Specific Humidity
+SPFH.925_mb                                                 Specific Humidity
+SPFH.950_mb                                                 Specific Humidity
+SPFH.975_mb                                                 Specific Humidity
+SUNSD.surface                                               Sunshine Duration
+TCDC.1000_mb                                                Total Cloud Cover
+TCDC.100_mb                                                 Total Cloud Cover
+TCDC.150_mb                                                 Total Cloud Cover
+TCDC.200_mb                                                 Total Cloud Cover
+TCDC.250_mb                                                 Total Cloud Cover
+TCDC.300_mb                                                 Total Cloud Cover
+TCDC.350_mb                                                 Total Cloud Cover
+TCDC.400_mb                                                 Total Cloud Cover
+TCDC.450_mb                                                 Total Cloud Cover
+TCDC.500_mb                                                 Total Cloud Cover
+TCDC.50_mb                                                  Total Cloud Cover
+TCDC.550_mb                                                 Total Cloud Cover
+TCDC.600_mb                                                 Total Cloud Cover
+TCDC.650_mb                                                 Total Cloud Cover
+TCDC.700_mb                                                 Total Cloud Cover
+TCDC.750_mb                                                 Total Cloud Cover
+TCDC.800_mb                                                 Total Cloud Cover
+TCDC.850_mb                                                 Total Cloud Cover
+TCDC.900_mb                                                 Total Cloud Cover
+TCDC.925_mb                                                 Total Cloud Cover
+TCDC.950_mb                                                 Total Cloud Cover
+TCDC.975_mb                                                 Total Cloud Cover
+TCDC.entire_atmosphere                                      Total Cloud Cover
+TMP.0.01_mb                                                 Temperature
+TMP.0.02_mb                                                 Temperature
+TMP.0.04_mb                                                 Temperature
+TMP.0.07_mb                                                 Temperature
+TMP.0.1_mb                                                  Temperature
+TMP.0.2_mb                                                  Temperature
+TMP.0.4_mb                                                  Temperature
+TMP.0.7_mb                                                  Temperature
+TMP.0.995_sigma_level                                       Temperature
+TMP.1000_mb                                                 Temperature
+TMP.100_m_above_ground                                      Temperature
+TMP.100_mb                                                  Temperature
+TMP.10_mb                                                   Temperature
+TMP.150_mb                                                  Temperature
+TMP.15_mb                                                   Temperature
+TMP.1829_m_above_mean_sea_level                             Temperature
+TMP.1_mb                                                    Temperature
+TMP.200_mb                                                  Temperature
+TMP.20_mb                                                   Temperature
+TMP.250_mb                                                  Temperature
+TMP.2743_m_above_mean_sea_level                             Temperature
+TMP.2_m_above_ground                                        Temperature
+TMP.2_mb                                                    Temperature
+TMP.30-0_mb_above_ground                                    Temperature
+TMP.300_mb                                                  Temperature
+TMP.30_mb                                                   Temperature
+TMP.350_mb                                                  Temperature
+TMP.3658_m_above_mean_sea_level                             Temperature
+TMP.3_mb                                                    Temperature
+TMP.400_mb                                                  Temperature
+TMP.40_mb                                                   Temperature
+TMP.450_mb                                                  Temperature
+TMP.500_mb                                                  Temperature
+TMP.50_mb                                                   Temperature
+TMP.550_mb                                                  Temperature
+TMP.5_mb                                                    Temperature
+TMP.600_mb                                                  Temperature
+TMP.650_mb                                                  Temperature
+TMP.700_mb                                                  Temperature
+TMP.70_mb                                                   Temperature
+TMP.750_mb                                                  Temperature
+TMP.7_mb                                                    Temperature
+TMP.800_mb                                                  Temperature
+TMP.80_m_above_ground                                       Temperature
+TMP.850_mb                                                  Temperature
+TMP.900_mb                                                  Temperature
+TMP.925_mb                                                  Temperature
+TMP.950_mb                                                  Temperature
+TMP.975_mb                                                  Temperature
+TMP.PV2e06Km2kgs_surface                                    Temperature
+TMP.PVNeg2e06Km2kgs_surface                                 Temperature
+TMP.max_wind                                                Temperature
+TMP.surface                                                 Temperature
+TMP.tropopause                                              Temperature
+TOZNE.entire_atmosphere_considered_as_a_single_layer        Total Ozone
+TSOIL.0-0.1_m_below_ground                                  Soil Temperature
+TSOIL.0.1-0.4_m_below_ground                                Soil Temperature
+TSOIL.0.4-1_m_below_ground                                  Soil Temperature
+TSOIL.1-2_m_below_ground                                    Soil Temperature
+UGRD.0.01_mb                                                U-Component of Wind
+UGRD.0.02_mb                                                U-Component of Wind
+UGRD.0.04_mb                                                U-Component of Wind
+UGRD.0.07_mb                                                U-Component of Wind
+UGRD.0.1_mb                                                 U-Component of Wind
+UGRD.0.2_mb                                                 U-Component of Wind
+UGRD.0.4_mb                                                 U-Component of Wind
+UGRD.0.7_mb                                                 U-Component of Wind
+UGRD.0.995_sigma_level                                      U-Component of Wind
+UGRD.1000_mb                                                U-Component of Wind
+UGRD.100_m_above_ground                                     U-Component of Wind
+UGRD.100_mb                                                 U-Component of Wind
+UGRD.10_m_above_ground                                      U-Component of Wind
+UGRD.10_mb                                                  U-Component of Wind
+UGRD.150_mb                                                 U-Component of Wind
+UGRD.15_mb                                                  U-Component of Wind
+UGRD.1829_m_above_mean_sea_level                            U-Component of Wind
+UGRD.1_mb                                                   U-Component of Wind
+UGRD.200_mb                                                 U-Component of Wind
+UGRD.20_m_above_ground                                      U-Component of Wind
+UGRD.20_mb                                                  U-Component of Wind
+UGRD.250_mb                                                 U-Component of Wind
+UGRD.2743_m_above_mean_sea_level                            U-Component of Wind
+UGRD.2_mb                                                   U-Component of Wind
+UGRD.30-0_mb_above_ground                                   U-Component of Wind
+UGRD.300_mb                                                 U-Component of Wind
+UGRD.30_m_above_ground                                      U-Component of Wind
+UGRD.30_mb                                                  U-Component of Wind
+UGRD.350_mb                                                 U-Component of Wind
+UGRD.3658_m_above_mean_sea_level                            U-Component of Wind
+UGRD.3_mb                                                   U-Component of Wind
+UGRD.400_mb                                                 U-Component of Wind
+UGRD.40_m_above_ground                                      U-Component of Wind
+UGRD.40_mb                                                  U-Component of Wind
+UGRD.450_mb                                                 U-Component of Wind
+UGRD.500_mb                                                 U-Component of Wind
+UGRD.50_m_above_ground                                      U-Component of Wind
+UGRD.50_mb                                                  U-Component of Wind
+UGRD.550_mb                                                 U-Component of Wind
+UGRD.5_mb                                                   U-Component of Wind
+UGRD.600_mb                                                 U-Component of Wind
+UGRD.650_mb                                                 U-Component of Wind
+UGRD.700_mb                                                 U-Component of Wind
+UGRD.70_mb                                                  U-Component of Wind
+UGRD.750_mb                                                 U-Component of Wind
+UGRD.7_mb                                                   U-Component of Wind
+UGRD.800_mb                                                 U-Component of Wind
+UGRD.80_m_above_ground                                      U-Component of Wind
+UGRD.850_mb                                                 U-Component of Wind
+UGRD.900_mb                                                 U-Component of Wind
+UGRD.925_mb                                                 U-Component of Wind
+UGRD.950_mb                                                 U-Component of Wind
+UGRD.975_mb                                                 U-Component of Wind
+UGRD.PV2e06Km2kgs_surface                                   U-Component of Wind
+UGRD.PVNeg2e06Km2kgs_surface                                U-Component of Wind
+UGRD.max_wind                                               U-Component of Wind
+UGRD.planetary_boundary_layer                               U-Component of Wind
+UGRD.tropopause                                             U-Component of Wind
+USTM.6000-0_m_above_ground                                  U-Component Storm Motion
+VEG.surface                                                 Vegetation
+VGRD.0.01_mb                                                V-Component of Wind
+VGRD.0.02_mb                                                V-Component of Wind
+VGRD.0.04_mb                                                V-Component of Wind
+VGRD.0.07_mb                                                V-Component of Wind
+VGRD.0.1_mb                                                 V-Component of Wind
+VGRD.0.2_mb                                                 V-Component of Wind
+VGRD.0.4_mb                                                 V-Component of Wind
+VGRD.0.7_mb                                                 V-Component of Wind
+VGRD.0.995_sigma_level                                      V-Component of Wind
+VGRD.1000_mb                                                V-Component of Wind
+VGRD.100_m_above_ground                                     V-Component of Wind
+VGRD.100_mb                                                 V-Component of Wind
+VGRD.10_m_above_ground                                      V-Component of Wind
+VGRD.10_mb                                                  V-Component of Wind
+VGRD.150_mb                                                 V-Component of Wind
+VGRD.15_mb                                                  V-Component of Wind
+VGRD.1829_m_above_mean_sea_level                            V-Component of Wind
+VGRD.1_mb                                                   V-Component of Wind
+VGRD.200_mb                                                 V-Component of Wind
+VGRD.20_m_above_ground                                      V-Component of Wind
+VGRD.20_mb                                                  V-Component of Wind
+VGRD.250_mb                                                 V-Component of Wind
+VGRD.2743_m_above_mean_sea_level                            V-Component of Wind
+VGRD.2_mb                                                   V-Component of Wind
+VGRD.30-0_mb_above_ground                                   V-Component of Wind
+VGRD.300_mb                                                 V-Component of Wind
+VGRD.30_m_above_ground                                      V-Component of Wind
+VGRD.30_mb                                                  V-Component of Wind
+VGRD.350_mb                                                 V-Component of Wind
+VGRD.3658_m_above_mean_sea_level                            V-Component of Wind
+VGRD.3_mb                                                   V-Component of Wind
+VGRD.400_mb                                                 V-Component of Wind
+VGRD.40_m_above_ground                                      V-Component of Wind
+VGRD.40_mb                                                  V-Component of Wind
+VGRD.450_mb                                                 V-Component of Wind
+VGRD.500_mb                                                 V-Component of Wind
+VGRD.50_m_above_ground                                      V-Component of Wind
+VGRD.50_mb                                                  V-Component of Wind
+VGRD.550_mb                                                 V-Component of Wind
+VGRD.5_mb                                                   V-Component of Wind
+VGRD.600_mb                                                 V-Component of Wind
+VGRD.650_mb                                                 V-Component of Wind
+VGRD.700_mb                                                 V-Component of Wind
+VGRD.70_mb                                                  V-Component of Wind
+VGRD.750_mb                                                 V-Component of Wind
+VGRD.7_mb                                                   V-Component of Wind
+VGRD.800_mb                                                 V-Component of Wind
+VGRD.80_m_above_ground                                      V-Component of Wind
+VGRD.850_mb                                                 V-Component of Wind
+VGRD.900_mb                                                 V-Component of Wind
+VGRD.925_mb                                                 V-Component of Wind
+VGRD.950_mb                                                 V-Component of Wind
+VGRD.975_mb                                                 V-Component of Wind
+VGRD.PV2e06Km2kgs_surface                                   V-Component of Wind
+VGRD.PVNeg2e06Km2kgs_surface                                V-Component of Wind
+VGRD.max_wind                                               V-Component of Wind
+VGRD.planetary_boundary_layer                               V-Component of Wind
+VGRD.tropopause                                             V-Component of Wind
+VIS.surface                                                 Visibility
+VRATE.planetary_boundary_layer                              Ventilation Rate
+VSTM.6000-0_m_above_ground                                  V-Component Storm Motion
+VVEL.0.01_mb                                                Vertical Velocity (Pressure)
+VVEL.0.02_mb                                                Vertical Velocity (Pressure)
+VVEL.0.04_mb                                                Vertical Velocity (Pressure)
+VVEL.0.07_mb                                                Vertical Velocity (Pressure)
+VVEL.0.1_mb                                                 Vertical Velocity (Pressure)
+VVEL.0.2_mb                                                 Vertical Velocity (Pressure)
+VVEL.0.4_mb                                                 Vertical Velocity (Pressure)
+VVEL.0.7_mb                                                 Vertical Velocity (Pressure)
+VVEL.0.995_sigma_level                                      Vertical Velocity (Pressure)
+VVEL.1000_mb                                                Vertical Velocity (Pressure)
+VVEL.100_mb                                                 Vertical Velocity (Pressure)
+VVEL.10_mb                                                  Vertical Velocity (Pressure)
+VVEL.150_mb                                                 Vertical Velocity (Pressure)
+VVEL.15_mb                                                  Vertical Velocity (Pressure)
+VVEL.1_mb                                                   Vertical Velocity (Pressure)
+VVEL.200_mb                                                 Vertical Velocity (Pressure)
+VVEL.20_mb                                                  Vertical Velocity (Pressure)
+VVEL.250_mb                                                 Vertical Velocity (Pressure)
+VVEL.2_mb                                                   Vertical Velocity (Pressure)
+VVEL.300_mb                                                 Vertical Velocity (Pressure)
+VVEL.30_mb                                                  Vertical Velocity (Pressure)
+VVEL.350_mb                                                 Vertical Velocity (Pressure)
+VVEL.3_mb                                                   Vertical Velocity (Pressure)
+VVEL.400_mb                                                 Vertical Velocity (Pressure)
+VVEL.40_mb                                                  Vertical Velocity (Pressure)
+VVEL.450_mb                                                 Vertical Velocity (Pressure)
+VVEL.500_mb                                                 Vertical Velocity (Pressure)
+VVEL.50_mb                                                  Vertical Velocity (Pressure)
+VVEL.550_mb                                                 Vertical Velocity (Pressure)
+VVEL.5_mb                                                   Vertical Velocity (Pressure)
+VVEL.600_mb                                                 Vertical Velocity (Pressure)
+VVEL.650_mb                                                 Vertical Velocity (Pressure)
+VVEL.700_mb                                                 Vertical Velocity (Pressure)
+VVEL.70_mb                                                  Vertical Velocity (Pressure)
+VVEL.750_mb                                                 Vertical Velocity (Pressure)
+VVEL.7_mb                                                   Vertical Velocity (Pressure)
+VVEL.800_mb                                                 Vertical Velocity (Pressure)
+VVEL.850_mb                                                 Vertical Velocity (Pressure)
+VVEL.900_mb                                                 Vertical Velocity (Pressure)
+VVEL.925_mb                                                 Vertical Velocity (Pressure)
+VVEL.950_mb                                                 Vertical Velocity (Pressure)
+VVEL.975_mb                                                 Vertical Velocity (Pressure)
+VWSH.PV2e06Km2kgs_surface                                   Vertical Speed Shear
+VWSH.PVNeg2e06Km2kgs_surface                                Vertical Speed Shear
+VWSH.tropopause                                             Vertical Speed Shear
+WEASD.surface                                               Water Equivalent of Accumulated Snow Depth
+WILT.surface                                                Wilting Point
