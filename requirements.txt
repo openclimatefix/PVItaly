@@ -1,4 +1,7 @@
 cfgrib  # may need to apt install libeccodes-dev libeccodes-tools
+dask
+datasets
+python-dotenv
 httpx
 huggingface-hub
 planetary-computer
