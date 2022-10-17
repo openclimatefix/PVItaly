@@ -1,6 +1,7 @@
 cfgrib  # may need to apt install libeccodes-dev libeccodes-tools
 dask
 datasets
+ecmwf-api-client
 python-dotenv
 httpx
 huggingface-hub
