@@ -20,7 +20,7 @@ INPUT_PV_LIST_FILENAME = os.path.join(BASE_PATH, "PVOutput_Italy_systems.csv")
 METADATA_FILENAME = os.path.join(BASE_PATH, "PVOutput_Italy_systems_metadata.csv")
 
 START_DATE = pd.Timestamp("1950-01-01")
-END_DATE = pd.Timestamp("2023-01-01")
+END_DATE = pd.Timestamp("2022-10-01")
 
 logging.basicConfig(
     level=getattr(logging, 'INFO'),
