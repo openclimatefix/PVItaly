@@ -23,8 +23,7 @@ logging.basicConfig(
 )
 
 
-pv_data_pipeline = simple_pv_datapipe("experiments/001/exp_001.yaml")
-pv_data_pipeline_validation = simple_pv_datapipe("experiments/001/exp_001.yaml", tag='validation')
+pv_data_pipeline = simple_pv_datapipe("experiments/002/exp_002.yaml", tag='validation')
 
 dl = DataLoader(dataset=pv_data_pipeline, batch_size=None)
 pv_iter = iter(dl)
@@ -67,34 +66,10 @@ def batch_to_x(batch):
     pv_t0_idx = batch[BatchKey.pv_t0_idx]
     # nwp_t0_idx = batch[BatchKey.nwp_t0_idx]
 
-    # x,y locations
-    x_osgb = batch[BatchKey.pv_x_osgb] / 10 ** 6
-    y_osgb = batch[BatchKey.pv_y_osgb] / 10 ** 6
-
-    # add pv capacity
-    pv_capacity = batch[BatchKey.pv_capacity_watt_power] / 1000
-
-    # future sun
-    sun = batch[BatchKey.pv_solar_elevation][:, pv_t0_idx:]
-    sun_az = batch[BatchKey.pv_solar_azimuth][:, pv_t0_idx:]
-
-    # future nwp
-    # nwp = batch[BatchKey.nwp][:, nwp_t0_idx:]
-    # nwp = nwp.reshape([nwp.shape[0], nwp.shape[1] * nwp.shape[2]])
-
-    # fourier features on pv time
-    pv_time_utc_fourier = batch[BatchKey.pv_time_utc_fourier]
-    pv_time_utc_fourier = pv_time_utc_fourier.reshape(
-        [pv_time_utc_fourier.shape[0], pv_time_utc_fourier.shape[1] * pv_time_utc_fourier.shape[2]]
-    )
-
     # history pv
     pv = batch[BatchKey.pv][:, :pv_t0_idx, 0].nan_to_num(0.0)
-    x = torch.concat(
-        (pv, sun, sun_az, x_osgb, y_osgb, pv_capacity, pv_time_utc_fourier), dim=1
-    )
 
-    return x
+    return pv
 
 
 class BaseModel(pl.LightningModule):
@@ -166,31 +141,13 @@ class Model(BaseModel):
         super().__init__()
         features = 128
         self.input_length = input_length
-        self.fc1 = nn.Linear(in_features=self.input_length, out_features=features)
-        self.fc2 = nn.Linear(in_features=features, out_features=features)
-        self.fc3 = nn.Linear(in_features=features, out_features=features)
-
-        # move embedding up a layer (or top)
-        # self.pv_system_id_embedding = nn.Embedding(num_embeddings=20000, embedding_dim=16)
-        self.fc4 = nn.Linear(in_features=features, out_features=output_length)
+        self.output_length = output_length
 
     def forward(self, x):
         x = batch_to_x(x)
 
-        out = F.relu(self.fc1(x))
-        out = F.relu(self.fc2(out))
-        out = F.relu(self.fc3(out))
-
-        # id_embedding = self.pv_system_id_embedding(batch[BatchKey.pv_id].type(torch.IntTensor))
-        # id_embedding = id_embedding.squeeze(1)
-        # out = torch.concat([out, id_embedding], dim=1)
-
-        out = torch.sigmoid(self.fc4(out))
-        # out = self.fc4(out)
-
-        # TODO add mixture density model
-        # TODO PVNET, colapse 7 days of data
-        # TODO full shebang, Grid NWP, mutiple PV, Satellite
+        out = x[:,-1:].repeat((1,self.output_length))
+        # out = torch.zeros((x.shape[0], self.output_length))
 
         return out
 
@@ -199,7 +156,7 @@ class Model(BaseModel):
 trainer = Trainer(
     accelerator="auto",
     devices=None,
-    max_epochs=10,
+    max_epochs=1,
 )
 
 x = batch_to_x(batch)
@@ -209,13 +166,13 @@ output_length = y.shape[1]
 
 
 def main():
-    train_loader = DataLoader(pv_data_pipeline, batch_size=None, num_workers=0)
-    val_loader = DataLoader(pv_data_pipeline_validation, batch_size=None, num_workers=0)
-    predict_loader = DataLoader(pv_data_pipeline, batch_size=None, num_workers=0)
+    # train_loader = DataLoader(pv_data_pipeline, batch_size=None, num_workers=0)
+    val_loader = DataLoader(pv_data_pipeline, batch_size=None, num_workers=0)
+    # predict_loader = DataLoader(pv_data_pipeline, batch_size=None, num_workers=0)
 
     model = Model(input_length=input_length, output_length=output_length)
 
-    trainer.fit(model, train_dataloaders=train_loader, val_dataloaders=val_loader)
+    trainer.validate(model, dataloaders=val_loader)
 
     # predict model for some plots
     batch = next(pv_iter)
@@ -228,6 +185,11 @@ if __name__ == "__main__":
 
 
 # results
-# 1. just using SV, after 10 epochs
-# mse = 0.00475
-# mae = 0.0325
+# 1. zeros
+# mse = 0.047
+# mae = 0.104
+
+# 2. persistance
+# mse = 0.024
+# mae = 0.078
+

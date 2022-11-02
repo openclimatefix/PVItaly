@@ -1,3 +1,6 @@
+"""
+Train on both SV and pvoutout.org sites
+"""
 import logging
 
 import pandas as pd
@@ -23,8 +26,8 @@ logging.basicConfig(
 )
 
 
-pv_data_pipeline = simple_pv_datapipe("experiments/001/exp_001.yaml")
-pv_data_pipeline_validation = simple_pv_datapipe("experiments/001/exp_001.yaml", tag='validation')
+pv_data_pipeline = simple_pv_datapipe("experiments/003/exp_003.yaml")
+pv_data_pipeline_validation = simple_pv_datapipe("experiments/003/exp_003_validation.yaml", tag='validation')
 
 dl = DataLoader(dataset=pv_data_pipeline, batch_size=None)
 pv_iter = iter(dl)
