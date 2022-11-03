@@ -10,6 +10,7 @@ UCAR_PASS='your-password'
 
 Then:
 ```bash
+sudo apt-get install libeccodes-dev libeccodes-tools
 pip install -r requirements.txt -r requirements-dev.txt
 pre-commit install
 ```
