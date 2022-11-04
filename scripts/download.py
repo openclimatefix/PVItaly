@@ -7,10 +7,61 @@ from typing import Optional
 
 import httpx
 import typer
+import xarray as xr
 from dotenv import load_dotenv
 from tqdm import tqdm
 
 load_dotenv()
+
+
+def create_ds(file: Path) -> xr.Dataset:
+    ds_t = xr.open_dataset(
+        file,
+        engine="cfgrib",
+        backend_kwargs={
+            "filter_by_keys": {
+                "cfVarName": "t",
+                "typeOfLevel": "surface",
+                "stepType": "instant",
+            }
+        },
+    )
+
+    ds_dp = xr.open_dataset(
+        file,
+        engine="cfgrib",
+        backend_kwargs={
+            "filter_by_keys": {"typeOfLevel": "surface", "stepType": "avg"}
+        },
+    )
+
+    ds_v = xr.open_dataset(
+        file,
+        engine="cfgrib",
+        backend_kwargs={
+            "filter_by_keys": {"cfVarName": "v", "typeOfLevel": "isobaricInhPa"},
+            "indexpath": "",
+        },
+    )
+
+    ds_u = xr.open_dataset(
+        file,
+        engine="cfgrib",
+        backend_kwargs={
+            "filter_by_keys": {"cfVarName": "u", "typeOfLevel": "isobaricInhPa"},
+            "indexpath": "",
+        },
+    )
+
+    return xr.merge(
+        [
+            ds_t.t,
+            ds_u.isel(isobaricInhPa=0).u,
+            ds_v.isel(isobaricInhPa=0).v,
+            ds_dp.dlwrf,
+            ds_dp.prate,
+        ]
+    )
 
 
 def download_file(
@@ -61,8 +112,8 @@ class UcarDownload:
         date = start_date
         delta = timedelta(hours=6)
 
-        while date <= end_date:
-            for fc in [0, 3, 6]:
+        while date < end_date:
+            for fc in [3, 6]:
                 url = build_url(date, fc)
                 file = Path(download_file(url, cookies=self.cookies))
                 yield date, fc, file
@@ -77,10 +128,12 @@ def main(
     downloader = UcarDownload()
     files = downloader.download_range(start_date, end_date)
     for date, fc, path in files:
-        print(date, fc, path)
+        ds = create_ds(path)
         ymdh = date.strftime("%Y%m%d_%H")
-        fname = f"{ymdh}_f{fc:03d}.grib2"
-        path.rename(dest_dir / fname)
+        fname = f"{ymdh}_f{fc:03d}"
+        ds.to_zarr(dest_dir / fname)
+        print(f"Saved zarr to 'dest/{fname}'")
+        path.unlink()
 
 
 if __name__ == "__main__":
