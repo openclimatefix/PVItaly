@@ -1,4 +1,5 @@
-import logging
+import sys
+from pathlib import Path
 
 import pandas as pd
 import plotly.graph_objects as go
@@ -12,25 +13,6 @@ from pytorch_lightning import Trainer
 from torch import nn
 from torch.utils.data import DataLoader
 from torchmetrics import MeanSquaredLogError
-
-
-logger = logging.getLogger(__name__)
-
-# set up logging
-logging.basicConfig(
-    level=getattr(logging, "INFO"),
-    format="[%(asctime)s] {%(pathname)s:%(lineno)d} %(levelname)s - %(message)s",
-)
-
-
-pv_data_pipeline = simple_pv_datapipe("experiments/001/exp_001.yaml")
-pv_data_pipeline_validation = simple_pv_datapipe("experiments/001/exp_001.yaml", tag='validation')
-
-dl = DataLoader(dataset=pv_data_pipeline, batch_size=None)
-pv_iter = iter(dl)
-
-# get a batch
-batch = next(pv_iter)
 
 
 def plot(batch, y_hat):
@@ -51,7 +33,10 @@ def plot(batch, y_hat):
             x=time_i, y=y[i].detach().numpy(), name="truth", line=dict(color="blue")
         )
         trace_2 = go.Scatter(
-            x=time_y_hat_i, y=y_hat[i].detach().numpy(), name="predict", line=dict(color="red")
+            x=time_y_hat_i,
+            y=y_hat[i].detach().numpy(),
+            name="predict",
+            line=dict(color="red"),
         )
 
         fig.add_trace(trace_1, row=row, col=col)
@@ -68,8 +53,8 @@ def batch_to_x(batch):
     # nwp_t0_idx = batch[BatchKey.nwp_t0_idx]
 
     # x,y locations
-    x_osgb = batch[BatchKey.pv_x_osgb] / 10 ** 6
-    y_osgb = batch[BatchKey.pv_y_osgb] / 10 ** 6
+    x_osgb = batch[BatchKey.pv_x_osgb] / 10**6
+    y_osgb = batch[BatchKey.pv_y_osgb] / 10**6
 
     # add pv capacity
     pv_capacity = batch[BatchKey.pv_capacity_watt_power] / 1000
@@ -85,7 +70,10 @@ def batch_to_x(batch):
     # fourier features on pv time
     pv_time_utc_fourier = batch[BatchKey.pv_time_utc_fourier]
     pv_time_utc_fourier = pv_time_utc_fourier.reshape(
-        [pv_time_utc_fourier.shape[0], pv_time_utc_fourier.shape[1] * pv_time_utc_fourier.shape[2]]
+        [
+            pv_time_utc_fourier.shape[0],
+            pv_time_utc_fourier.shape[1] * pv_time_utc_fourier.shape[2],
+        ]
     )
 
     # history pv
@@ -101,7 +89,9 @@ class BaseModel(pl.LightningModule):
     def __init__(self):
         super().__init__()
 
-    def _training_or_validation_step(self, x, return_model_outputs: bool = False, tag='train'):
+    def _training_or_validation_step(
+        self, x, return_model_outputs: bool = False, tag="train"
+    ):
         """
         batch: The batch data
         tag: either 'Train', 'Validation' , 'Test'
@@ -120,14 +110,16 @@ class BaseModel(pl.LightningModule):
         bce_loss = torch.nn.BCELoss()(y_hat, y)
         msle_loss = MeanSquaredLogError()(y_hat, y)
 
-        loss = mse_loss + mae_loss + 0.1*bce_loss
-        if tag=='val':
+        loss = mse_loss + mae_loss + 0.1 * bce_loss
+        if tag == "val":
             on_step = False
         else:
             on_step = True
 
         self.log(f"mse_{tag}", mse_loss, on_step=on_step, on_epoch=True, prog_bar=True)
-        self.log(f"msle_{tag}", msle_loss, on_step=on_step, on_epoch=True, prog_bar=True)
+        self.log(
+            f"msle_{tag}", msle_loss, on_step=on_step, on_epoch=True, prog_bar=True
+        )
         self.log(f"mae_{tag}", mae_loss, on_step=on_step, on_epoch=True, prog_bar=True)
         self.log(f"bce_{tag}", bce_loss, on_step=on_step, on_epoch=True, prog_bar=True)
 
@@ -141,14 +133,14 @@ class BaseModel(pl.LightningModule):
         if batch_idx < 1:
             plot(x, self(x))
 
-        return self._training_or_validation_step(x, tag='tra')
+        return self._training_or_validation_step(x, tag="tra")
 
     def validation_step(self, x, batch_idx):
 
         if batch_idx < 1:
             plot(x, self(x))
 
-        return self._training_or_validation_step(x,tag='val')
+        return self._training_or_validation_step(x, tag="val")
 
     def predict_step(self, x, batch_idx, dataloader_idx=0):
         return x, self(x)
@@ -156,9 +148,6 @@ class BaseModel(pl.LightningModule):
     def configure_optimizers(self):
         optimizer = torch.optim.Adam(self.parameters(), lr=0.002)
         return optimizer
-
-    def on_epoch_start(self):
-        print("\n")
 
 
 class Model(BaseModel):
@@ -195,36 +184,70 @@ class Model(BaseModel):
         return out
 
 
-# Initialize a trainer
-trainer = Trainer(
-    accelerator="auto",
-    devices=None,
-    max_epochs=10,
-)
-
-x = batch_to_x(batch)
-y = batch[BatchKey.pv][:, batch[BatchKey.pv_t0_idx] :, 0]
-input_length = x.shape[1]
-output_length = y.shape[1]
+def get_dims(batch):
+    x = batch_to_x(batch)
+    y = batch[BatchKey.pv][:, batch[BatchKey.pv_t0_idx] :, 0]
+    input_length = x.shape[1]
+    output_length = y.shape[1]
+    return x, y, input_length, output_length
 
 
 def main():
+    pv_data_pipeline = simple_pv_datapipe("experiments/001/exp_001.yaml")
+    pv_data_pipeline_validation = simple_pv_datapipe(
+        "experiments/001/exp_001.yaml", tag="validation"
+    )
     train_loader = DataLoader(pv_data_pipeline, batch_size=None, num_workers=0)
     val_loader = DataLoader(pv_data_pipeline_validation, batch_size=None, num_workers=0)
-    predict_loader = DataLoader(pv_data_pipeline, batch_size=None, num_workers=0)
+    dl = DataLoader(dataset=pv_data_pipeline, batch_size=None)
+    pv_iter = iter(dl)
+    batch = next(pv_iter)
+    _, _, input_length, output_length = get_dims(batch)
+
+    # Initialize a trainer
+    trainer = Trainer(
+        accelerator="auto",
+        devices=None,
+        max_epochs=10,
+    )
 
     model = Model(input_length=input_length, output_length=output_length)
-
     trainer.fit(model, train_dataloaders=train_loader, val_dataloaders=val_loader)
 
     # predict model for some plots
-    batch = next(pv_iter)
     y_hat = model(batch)
-
     plot(batch, y_hat)
 
+
+def infer():
+    pv_data_pipeline = simple_pv_datapipe("experiments/001/exp_001.yaml")
+    dl = DataLoader(pv_data_pipeline, batch_size=None, num_workers=0)
+    pv_iter = iter(dl)
+    batch = next(pv_iter)
+    x, y, input_length, output_length = get_dims(batch)
+
+    ckpts = sorted(Path("lightning_logs/version_0/checkpoints").glob("*.ckpt"))
+    ckpt = list(ckpts)[-1]
+    model = Model.load_from_checkpoint(
+        ckpt, input_length=input_length, output_length=output_length
+    )
+
+    y_hat = model(batch)
+
+    df = pd.DataFrame(
+        {
+            "y": y.detach().numpy().flatten(),
+            "y_hat": y_hat.detach().numpy().flatten(),
+        }
+    )
+    df.to_csv("experiments/001/pred.csv")
+
+
 if __name__ == "__main__":
-    main()
+    if sys.argv[1] == "infer":
+        infer()
+    else:
+        main()
 
 
 # results
