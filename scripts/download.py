@@ -14,9 +14,9 @@ from tqdm import tqdm
 load_dotenv()
 
 
-def create_ds(file: Path) -> xr.Dataset:
+def create_ds(path: Path) -> xr.Dataset:
     ds_t = xr.open_dataset(
-        file,
+        path,
         engine="cfgrib",
         backend_kwargs={
             "filter_by_keys": {
@@ -26,42 +26,41 @@ def create_ds(file: Path) -> xr.Dataset:
             }
         },
     )
+    ds_t = ds_t.t
 
     ds_dp = xr.open_dataset(
-        file,
+        path,
         engine="cfgrib",
         backend_kwargs={
             "filter_by_keys": {"typeOfLevel": "surface", "stepType": "avg"}
         },
     )
+    ds_d = ds_dp.dlwrf
+    ds_p = ds_dp.prate
 
     ds_v = xr.open_dataset(
-        file,
+        path,
         engine="cfgrib",
         backend_kwargs={
             "filter_by_keys": {"cfVarName": "v", "typeOfLevel": "isobaricInhPa"},
             "indexpath": "",
         },
     )
+    ds_v = ds_v.isel(isobaricInhPa=0).v
 
     ds_u = xr.open_dataset(
-        file,
+        path,
         engine="cfgrib",
         backend_kwargs={
             "filter_by_keys": {"cfVarName": "u", "typeOfLevel": "isobaricInhPa"},
             "indexpath": "",
         },
     )
+    ds_u = ds_u.isel(isobaricInhPa=0).u
 
-    return xr.merge(
-        [
-            ds_t.t,
-            ds_u.isel(isobaricInhPa=0).u,
-            ds_v.isel(isobaricInhPa=0).v,
-            ds_dp.dlwrf,
-            ds_dp.prate,
-        ]
-    )
+    ds_merged = xr.merge([ds_t, ds_u, ds_v, ds_d, ds_p])
+
+    return ds_merged
 
 
 def download_file(
@@ -115,8 +114,11 @@ class UcarDownload:
         while date < end_date:
             for fc in [3, 6]:
                 url = build_url(date, fc)
-                file = Path(download_file(url, cookies=self.cookies))
-                yield date, fc, file
+                try:
+                    file = Path(download_file(url, cookies=self.cookies))
+                    yield date, fc, file
+                except KeyError as e:
+                    print(f"Failed for {date=}, {fc=} with {e}")
             date += delta
 
 
@@ -131,7 +133,7 @@ def main(
         ds = create_ds(path)
         ymdh = date.strftime("%Y%m%d_%H")
         fname = f"{ymdh}_f{fc:03d}"
-        ds.to_zarr(dest_dir / fname)
+        ds.to_zarr(dest_dir / fname, mode="w")
         print(f"Saved zarr to 'dest/{fname}'")
         path.unlink()
 
