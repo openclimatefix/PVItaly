@@ -165,6 +165,7 @@ trainer = Trainer(
     devices=None,
     max_epochs=1,
     limit_val_batches=50,
+    log_every_n_steps=5,
 )
 
 x = batch_to_x(batch)
@@ -175,7 +176,7 @@ output_length = y.shape[1]
 
 def main():
     # train_loader = DataLoader(pv_data_pipeline, batch_size=None, num_workers=0)
-    val_loader = DataLoader(pv_data_pipeline, batch_size=None, num_workers=0)
+    val_loader = DataLoader(pv_data_pipeline, batch_size=None, num_workers=4)
     # predict_loader = DataLoader(pv_data_pipeline, batch_size=None, num_workers=0)
 
     model = Model(input_length=input_length, output_length=output_length)
