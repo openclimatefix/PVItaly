@@ -22,7 +22,7 @@ def exp_factory(module: str) -> tuple[type[pl.LightningModule], Callable]:
 
 
 def infer(  # type: ignore[no-any-unimported]
-    pipeline: Path, module: str, ckpt_path: Path, batches: int
+    config: Path, module: str, ckpt_path: Path, batches: int
 ) -> tuple[np.ndarray, Batch, int]:
     """Run inference and return y_hat and batches.
 
@@ -31,7 +31,7 @@ def infer(  # type: ignore[no-any-unimported]
         truth: dict of np.ndarray, shaped [num_preds, ...]
         pv_t0_idx: int
     """
-    pv_data_pipeline = simple_pv_datapipe(pipeline, tag="test")
+    pv_data_pipeline = simple_pv_datapipe(config, tag="test")
     dl = DataLoader(pv_data_pipeline, batch_size=None, num_workers=0)
 
     Model, batch_to_x = exp_factory(module)
@@ -110,7 +110,7 @@ def post_process(  # type: ignore[no-any-unimported]
 
 
 def main(
-    pipeline: Path = Path("inference/infer.yaml"),
+    config: Path = Path("inference/infer.yaml"),
     module: str = "experiments.e001.experiment_001",
     ckpt_dir: Path = Path("lightning_logs/version_0/checkpoints"),
     batches: int = int((1.2 * 4 * 365 * 24 * 60) / (15 * 32)),
@@ -118,7 +118,7 @@ def main(
     output_suffix: str = "000",
 ) -> None:
     ckpt_path = list(sorted(ckpt_dir.glob("*.ckpt")))[-1]
-    y_hat, batch, pv_t0_idx = infer(pipeline, module, ckpt_path, batches)
+    y_hat, batch, pv_t0_idx = infer(config, module, ckpt_path, batches)
     dfw, dfl = post_process(y_hat, batch, pv_t0_idx)
 
     dfw_path = output_dir / f"dfw_{output_suffix}.parquet"
