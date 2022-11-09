@@ -9,6 +9,6 @@ planetary-computer
 pystac-client
 python-dotenv
 tqdm
-typer
+typer[all]>=0.7.0
 xarray
 zarr
