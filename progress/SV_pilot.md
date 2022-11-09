@@ -49,21 +49,19 @@ It is always good to baseline the models with some very simple models,
 in order to get an understanding of the statistics. 
 
 The following different baselines were looked at:
-- Always predict zero 
-- Use the last values for the forecast of the 
+- Zero: Always predict zero 
+- Persist: Use the last values for the forecast of the 
 
-The following results were found. 
-
-|      | MAE | MSE
-| ----------- | ----------- | --- |
-| Zero      |  0.104      | 0.047
-| Persist  |    0.078     | 0.024
+See results [here](SV_pilot.md#Results).  
 
 
 
-###  Fully Connected NN
 
-The idea is to use a 3 layer full connection neural network. We also add some site
+###  Fully Connected Neural Network
+
+The idea is to use a 3 hidden layered of full connection neural network. 
+This takes all the inputs above, passes them through the layers and 
+then produces predictions at 15 mins intervals for the next 4 hours.
 
 ## Training
 
@@ -74,20 +72,25 @@ Training our models took approxiately X hours
 
 ## Results
 
-|      | MAE [%] | MSE [%]
-| ----------- | ----------- | --- |
-| Zero      |  10.4      | 4.7
-| Persist  |    7.8     | 2.4
-| SV sites only      | 3.25 | 0.475
-| All sites  |         | 
+|               | MAE [%]   | MSE [%]
+| -----------   | --------- | --- 
+| Zero          | 10.4      | 4.7
+| Persist       | 7.8       | 2.4
+| SV sites only | 3.25      | 0.475
+| All sites     |           | 
 
 ## Next Steps
 
 ### Data Satellite
 
-We did not used any Satellite information but our models could easily be extended in the future.
+It would be great to use Satellite information aswell and our models could easily be extended in the future.
+In previous models with have seen 16% in accuracy.  
 
 ### Models
 
-1. PVnet
-2. Metnet
+We would like to use some deep neural networks to enchance our results. 
+
+1. PVnet - [link](TODO)
+2. Metnet - [link](TODO)
+
+Both these methods would allow a lot more spatial data to be used to make the predictions more accuracy. 
