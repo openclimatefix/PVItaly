@@ -166,6 +166,7 @@ trainer = Trainer(
     max_epochs=1,
     limit_val_batches=50,
     log_every_n_steps=5,
+    logger=wandb_logger
 )
 
 x = batch_to_x(batch)
