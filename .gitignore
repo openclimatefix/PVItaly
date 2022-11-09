@@ -3,6 +3,7 @@ data/
 *.csv
 *.netcdf
 *.joblib
+*.parquet
 lightning_logs/
 
 # Byte-compiled / optimized / DLL files
