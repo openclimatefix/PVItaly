@@ -102,7 +102,7 @@ class BaseModel(pl.LightningModule):
 
         loss = mse_loss + mae_loss + 0.1*bce_loss
         if tag=='val':
-            on_step = False
+            on_step = True
         else:
             on_step = True
 
