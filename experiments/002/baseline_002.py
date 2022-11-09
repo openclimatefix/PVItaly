@@ -15,6 +15,8 @@ from torchmetrics import MeanSquaredLogError
 
 
 logger = logging.getLogger(__name__)
+from pytorch_lightning.loggers import WandbLogger
+wandb_logger = WandbLogger(project="pv-italy", name='exp-2-zero')
 
 # set up logging
 logging.basicConfig(
