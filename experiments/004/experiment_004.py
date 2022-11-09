@@ -73,7 +73,10 @@ def plot(batch, y_hat):
 
     fig.update_yaxes(range=[0, 1])
 
-    fig.show(renderer="browser")
+    try:
+        fig.show(renderer="browser")
+    except:
+        pass
 #
 
 def batch_to_x(batch):

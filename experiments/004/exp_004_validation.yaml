@@ -22,8 +22,8 @@ input_data:
     history_minutes: 0
     forecast_minutes: 240
     time_resolution_minutes: 60
-    start_datetime: 2021-01-01 00:00
-    end_datetime: 2022-01-01 00:00
+    start_datetime: 2022-01-01 00:00
+    end_datetime: 2022-10-01 00:00
     nwp_image_size_pixels_height: 2
     nwp_image_size_pixels_width: 2
 
