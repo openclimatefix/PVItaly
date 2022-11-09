@@ -26,10 +26,10 @@ logger = logging.getLogger(__name__)
 
 # set up logging
 # logging.basicConfig(
-#     level=getattr(logging, "DEBUG"),
+#     level=getattr(logging, "INFO"),
 #     format="[%(asctime)s] {%(pathname)s:%(lineno)d} %(levelname)s - %(message)s",
 # )
-wandb_logger = WandbLogger(project="pv-italy",name='exp-3-100-pv')
+wandb_logger = WandbLogger(project="pv-italy",name='exp-3-pv-10')
 
 
 pv_data_pipeline = simple_pv_datapipe("experiments/003/exp_003.yaml")

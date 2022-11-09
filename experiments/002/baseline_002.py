@@ -14,9 +14,12 @@ from torch.utils.data import DataLoader
 from torchmetrics import MeanSquaredLogError
 
 
+baseline = 'zero'
+baseline = 'persist'
+
 logger = logging.getLogger(__name__)
 from pytorch_lightning.loggers import WandbLogger
-wandb_logger = WandbLogger(project="pv-italy", name='exp-2-zero')
+wandb_logger = WandbLogger(project="pv-italy", name=f'exp-2-{baseline}')
 
 # set up logging
 logging.basicConfig(
@@ -60,7 +63,7 @@ def plot(batch, y_hat):
 
     fig.update_yaxes(range=[0, 1])
 
-    fig.show(renderer="browser")
+    # fig.show(renderer="browser")
 
 
 def batch_to_x(batch):
@@ -148,8 +151,10 @@ class Model(BaseModel):
     def forward(self, x):
         x = batch_to_x(x)
 
-        out = x[:,-1:].repeat((1,self.output_length))
-        # out = torch.zeros((x.shape[0], self.output_length))
+        if baseline == 'persist':
+            out = x[:,-1:].repeat((1,self.output_length))
+        elif baseline == 'zero':
+            out = torch.zeros((x.shape[0], self.output_length))
 
         return out
 
@@ -159,6 +164,7 @@ trainer = Trainer(
     accelerator="auto",
     devices=None,
     max_epochs=1,
+    limit_val_batches=50,
 )
 
 x = batch_to_x(batch)
