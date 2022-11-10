@@ -23,7 +23,7 @@ The following filters were used.
 
 1. We removed any negative value
 2. Remove any values above 10^6
-3. Remove any values above mean + 5 stds. This gets rid of any anomalies
+3. Remove any values above mean + 5 standard deviations. This gets rid of any anomalies
 4. Remove specific datetimes for site 4 (Universita Ca Foscari), 2021-06-09 to 2021-07-12
 
 ### PVoutput.org
@@ -45,9 +45,10 @@ We have collected GFS data over the whole of Italy, using a 1/4 degree grid. The
 ### General
 
 We add the sun's azimuth and elevation angle as a model input. 
-This is highly predictable and clearly has strong correlation with pv production 
+This is highly predictable and clearly has strong correlation with PV production 
 
-We also normalized the data by the pv system capacity value. This normalizes the pv production, so all values are between 0 and 1. 
+We also normalized the data by the PV system capacity value. 
+This normalizes the PV production generation, so all values are between 0 and 1. 
 The NWP variables have also been normalized. 
 
 ## Models
@@ -69,10 +70,10 @@ See results [here](SV_pilot.md#Results).
 The model used is a 3 hidden layered of FC (full connection) neural network. 
 PV ID has also been embedded in the network, so that the model learns which PV system the prediction is for. 
 
-The model takes all the inputs above, passes them through the neural nework layers and 
+The model takes all the inputs above, passes them through the neural network layers and 
 then produces predictions at 15 minutes intervals for the next 4 hours.
 
-The illustraction below show how the input data is feed into the network and how forecast are made. 
+The illustration below show how the input data is feed into the network and how forecast are made. 
 ![image](./PVFC.png)
 
 
@@ -116,7 +117,7 @@ this particular example would be improved with satellite images
 
 We have saved a forecast from 2022-01-01 to 2022-10-01 at 15 minute time intervals to 4 hours ahead. 
 
-The table below shows the forecast acuracy for each site. 
+The table below shows the forecast accuracy for each site. 
 
 |    | Location | Capacity [kW] | MAE [kW] |
 | ----------- | ----------- | --- | --- | 
@@ -134,7 +135,7 @@ A different loss function is needed to increase the accuracy of the first few ti
 ### Data Satellite
 
 It would be great to use Satellite information as well and our models could easily be extended in the future.
-In previous models with have seen 16% increase in accuracy.  
+In previous models we have seen a 16% increase in accuracy.  
 
 ### Training
 
@@ -146,7 +147,7 @@ It would be good to use a loss function that focuses the model on the first few 
 
 ### Models
 
-We would like to use some deep neural networks to enchance our results. 
+We would like to use some deep neural networks to enhance our results. 
 
 1. PVnet - [link](TODO WP2 report)
 2. Metnet - [link](https://arxiv.org/abs/2003.12140)
