@@ -29,17 +29,25 @@ The following filters were used.
 ### PVoutput.org
 
 We downloaded 436 sites from Italy from [PVoutput.org](https://pvoutput.org/region.jsp?country=117). 
+This allows the model to learn how the PV sites are performing near the SV sites. 
 
 ![image](./PV_sites.png)
 
 ### NWP 
+
+We have collected GFS data over the whole of Italy, using a 1/4 degree grid. The following variables has been used. 
+- dlwrf ( downward ): This is a fairly inaccurate prediction of solar irradiance. 
+- t (temperature): The air temperature at ground level
+- prate (perciptation rate): The amount of rainfall
+- u,v: The 2 dimensional wind speed direction at the ground. 
 
 ### General
 
 We add the sun's azimuth and elevation angle as a model input. 
 This is highly predictable and clearly has strong correlation with pv production 
 
-We also normalized the data by the capacity value. This normalizes the pv production, so all values are between 0 and 1. 
+We also normalized the data by the pv system capacity value. This normalizes the pv production, so all values are between 0 and 1. 
+The NWP variables have also been normalized. 
 
 ## Models
 
@@ -49,45 +57,79 @@ It is always good to baseline the models with some very simple models,
 in order to get an understanding of the statistics. 
 
 The following different baselines were looked at:
-- Always predict zero 
-- Use the last values for the forecast of the 
+- Zero: Always predict zero 
+- Persist: Use the last values for the forecast of the 
 
-The following results were found. 
-
-|      | MAE | MSE
-| ----------- | ----------- | --- |
-| Zero      |  0.104      | 0.047
-| Persist  |    0.078     | 0.024
+See results [here](SV_pilot.md#Results).  
 
 
+###  PV-FC 
 
-###  Fully Connected NN
+The idea is to use a 3 hidden layered of FC (full connection) neural network. 
+PV ID has also been embedded in the network, so that the model learns which PV system the prediction is for. 
 
-The idea is to use a 3 layer full connection neural network. We also add some site
+This takes all the inputs above, passes them through the layers and 
+then produces predictions at 15 mins intervals for the next 4 hours.
+
+![image](./PVFC.png)
+
 
 ## Training
 
 We divided the data into 2021 and 2022. 
 We trained our models using 2022, and then validated our results on 2021.
 
-Training our models took approxiately X hours
+Training our models took approximately 1 hour. 
+
+![image](./training.png)
+Figure shows how the loss decreases during a several training runs. 
 
 ## Results
 
-|      | MAE [%] | MSE [%]
-| ----------- | ----------- | --- |
-| Zero      |  10.4      | 4.7
-| Persist  |    7.8     | 2.4
-| SV sites only      | 3.25 | 0.475
-| All sites  |         | 
+The table below shows the different models metrics for MAE and MSE.
+
+|               | MAE [%]   | MSE [%] | link
+| -----------   | --------- | --- | --- |
+| Zero          | 10.07     | 4.26 | [baseline1](https://wandb.ai/openclimatefix/pv-italy/runs/13xw5y6p)
+| Persist       | 6.96      | 2.1 | [baseline2](https://wandb.ai/openclimatefix/pv-italy/runs/2b2wjxww)
+| PV only       | 2.95      | 0.474 | [pv_sv](https://wandb.ai/openclimatefix/pv-italy/runs/3aix2ijd)
+| PV and NWP    | 2.24      |  0.0294  | [nwp](https://wandb.ai/openclimatefix/pv-italy/runs/2ekjl5ld)
+
+
+Below shows some example predictions of PV systems. The blue line is the truth and the red line is the foreacst. 
+Note the last 4 hours of true PV values are also shown.
+![image](./pre1.png)
+![image](./pre2.png)
+![image](./pre3.png)
+
+## Inference
+
+TODO
+
+We have saved a forecast from 2022-01-01 to 2022-10-XX at 15 minute time intervals to 4 hours ahead. 
+
+
+TODO something on forecast horizon for each system
 
 ## Next Steps
 
 ### Data Satellite
 
-We did not used any Satellite information but our models could easily be extended in the future.
+It would be great to use Satellite information aswell and our models could easily be extended in the future.
+In previous models with have seen 16% in accuracy.  
+
+### Training
+
+The models are currently only trained for a limited number of epochs. 
+For some models, we did not see any over fitting to the training data, 
+therefore it would be good to extend training to reduce the errors even more. 
+
 
 ### Models
 
-1. PVnet
-2. Metnet
+We would like to use some deep neural networks to enchance our results. 
+
+1. PVnet - [link](TODO WP2 report)
+2. Metnet - [link](https://arxiv.org/abs/2003.12140)
+
+Both these methods would allow a lot more spatial data to be used to make the predictions more accuracy. 

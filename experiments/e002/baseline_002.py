@@ -11,7 +11,14 @@ from pytorch_lightning import Trainer
 from torch.utils.data import DataLoader
 from torchmetrics import MeanSquaredLogError
 
+
+baseline = 'zero'
+baseline = 'persist'
+
+
 logger = logging.getLogger(__name__)
+from pytorch_lightning.loggers import WandbLogger
+wandb_logger = WandbLogger(project="pv-italy", name=f'exp-2-{baseline}')
 
 # set up logging
 logging.basicConfig(
@@ -19,8 +26,8 @@ logging.basicConfig(
     format="[%(asctime)s] {%(pathname)s:%(lineno)d} %(levelname)s - %(message)s",
 )
 
+pv_data_pipeline = simple_pv_datapipe("experiments/e002/exp_002.yaml", tag='validation')
 
-pv_data_pipeline = simple_pv_datapipe("experiments/e002/exp_002.yaml", tag="validation")
 
 dl = DataLoader(dataset=pv_data_pipeline, batch_size=None)
 pv_iter = iter(dl)
@@ -58,7 +65,10 @@ def plot(batch, y_hat):
 
     fig.update_yaxes(range=[0, 1])
 
-    fig.show(renderer="browser")
+    try:
+        fig.show(renderer="browser")
+    except:
+        pass
 
 
 def batch_to_x(batch):
@@ -97,9 +107,9 @@ class BaseModel(pl.LightningModule):
         bce_loss = torch.nn.BCELoss()(y_hat, y)
         msle_loss = MeanSquaredLogError()(y_hat, y)
 
-        loss = mse_loss + mae_loss + 0.1 * bce_loss
-        if tag == "val":
-            on_step = False
+        loss = mse_loss + mae_loss + 0.1*bce_loss
+        if tag=='val':
+            on_step = True
         else:
             on_step = True
 
@@ -149,8 +159,10 @@ class Model(BaseModel):
     def forward(self, x):
         x = batch_to_x(x)
 
-        out = x[:, -1:].repeat((1, self.output_length))
-        # out = torch.zeros((x.shape[0], self.output_length))
+        if baseline == 'persist':
+            out = x[:,-1:].repeat((1,self.output_length))
+        elif baseline == 'zero':
+            out = torch.zeros((x.shape[0], self.output_length))
 
         return out
 
@@ -160,6 +172,9 @@ trainer = Trainer(
     accelerator="auto",
     devices=None,
     max_epochs=1,
+    limit_val_batches=50,
+    log_every_n_steps=5,
+    logger=wandb_logger
 )
 
 x = batch_to_x(batch)
@@ -170,7 +185,7 @@ output_length = y.shape[1]
 
 def main():
     # train_loader = DataLoader(pv_data_pipeline, batch_size=None, num_workers=0)
-    val_loader = DataLoader(pv_data_pipeline, batch_size=None, num_workers=0)
+    val_loader = DataLoader(pv_data_pipeline, batch_size=None, num_workers=4)
     # predict_loader = DataLoader(pv_data_pipeline, batch_size=None, num_workers=0)
 
     model = Model(input_length=input_length, output_length=output_length)
