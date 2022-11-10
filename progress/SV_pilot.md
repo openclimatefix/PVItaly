@@ -30,6 +30,7 @@ The following filters were used.
 
 We downloaded 436 sites from Italy from [PVoutput.org](https://pvoutput.org/region.jsp?country=117). 
 This allows the model to learn how the PV sites are performing near the SV sites. 
+The following figure shows where all the PV sites are located. 
 
 ![image](./PV_sites.png)
 
@@ -65,12 +66,13 @@ See results [here](SV_pilot.md#Results).
 
 ###  PV-FC 
 
-The idea is to use a 3 hidden layered of FC (full connection) neural network. 
+The model used is a 3 hidden layered of FC (full connection) neural network. 
 PV ID has also been embedded in the network, so that the model learns which PV system the prediction is for. 
 
-This takes all the inputs above, passes them through the layers and 
-then produces predictions at 15 mins intervals for the next 4 hours.
+The model takes all the inputs above, passes them through the neural nework layers and 
+then produces predictions at 15 minutes intervals for the next 4 hours.
 
+The illustraction below show how the input data is feed into the network and how forecast are made. 
 ![image](./PVFC.png)
 
 
@@ -79,6 +81,7 @@ then produces predictions at 15 mins intervals for the next 4 hours.
 We divided the data into 2021 and 2022. 
 We trained our models using 2021, and then validated our results on 2022. 
 Note that during validation we only use a random subset of 2022, rather than the whole year. 
+For inference we used the entire dataset from 2022. 
 
 Training our models took approximately 1 hour. 
 
@@ -87,18 +90,18 @@ This figure shows how the error between forecast and truth decreases during a se
 
 ## Results
 
-The table below shows the different models metrics for MAE and MSE.
+The table below shows the different metrics for MAE and MSE for the baseline and two different models.
 
 |               | MAE [%]   | MSE [%] | link
 | -----------   | --------- | --- | --- |
 | Zero          | 10.07     | 4.26 | [baseline1](https://wandb.ai/openclimatefix/pv-italy/runs/13xw5y6p)
 | Persist       | 6.96      | 2.1 | [baseline2](https://wandb.ai/openclimatefix/pv-italy/runs/2b2wjxww)
-| PV only       | 2.95      | 0.474 | [pv_sv](https://wandb.ai/openclimatefix/pv-italy/runs/3aix2ijd)
-| PV and NWP    | 2.24      |  0.0294  | [nwp](https://wandb.ai/openclimatefix/pv-italy/runs/2ekjl5ld)
+| PV only       | 2.95      | 0.474 | [pv](https://wandb.ai/openclimatefix/pv-italy/runs/3aix2ijd)
+| PV and NWP    | 2.24      |  0.0294  | [pv_nwp](https://wandb.ai/openclimatefix/pv-italy/runs/2ekjl5ld)
 
 
-Below shows some example predictions of PV systems. The blue line is the truth and the red line is the foreacst. 
-Note the last 4 hours of true PV values are also shown.
+Below shows some example predictions of PV systems. The blue line is the truth and the red line is the forecast. 
+Note the historic 4 hours of true PV values are also shown.
 
 Example of two good predictions
 ![image](./pre1.png)
@@ -130,8 +133,8 @@ A different loss function is needed to increase the accuracy of the first few ti
 
 ### Data Satellite
 
-It would be great to use Satellite information aswell and our models could easily be extended in the future.
-In previous models with have seen 16% in accuracy.  
+It would be great to use Satellite information as well and our models could easily be extended in the future.
+In previous models with have seen 16% increase in accuracy.  
 
 ### Training
 
