@@ -21,6 +21,7 @@ from torchmetrics import MeanSquaredLogError
 # import neptune.new as neptune
 
 from pytorch_lightning.loggers import WandbLogger
+from pytorch_lightning.callbacks import ModelCheckpoint
 
 
 logger = logging.getLogger(__name__)
@@ -215,7 +216,9 @@ class Model(BaseModel):
 
         return out
 
+
 # Initialize a trainer
+checkpoint_callback = ModelCheckpoint(dirpath="./ckpt/", save_top_k=2, monitor="val_loss")
 trainer = Trainer(
     accelerator="auto",
     devices=None,
@@ -227,6 +230,7 @@ trainer = Trainer(
     logger=wandb_logger,
     log_every_n_steps=5,
     default_root_dir="/ckpt/",
+    callbacks=[checkpoint_callback]
 )
 
 # x = batch_to_x(batch)
