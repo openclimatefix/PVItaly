@@ -1,3 +1,5 @@
+import sys
+from pathlib import Path
 import logging
 
 import pandas as pd
@@ -35,6 +37,7 @@ pv_iter = iter(dl)
 
 # get a batch
 batch = next(pv_iter)
+
 
 
 def plot(batch, y_hat):
@@ -173,9 +176,6 @@ class BaseModel(pl.LightningModule):
         optimizer = torch.optim.Adam(self.parameters(), lr=0.002)
         return optimizer
 
-    def on_epoch_start(self):
-        print("\n")
-
 
 class Model(BaseModel):
     def __init__(self, input_length, output_length):
@@ -211,37 +211,71 @@ class Model(BaseModel):
         return out
 
 
-# Initialize a trainer
-trainer = Trainer(
-    accelerator="auto",
-    devices=None,
-    max_epochs=10,
-)
-
-x = batch_to_x(batch)
-y = batch[BatchKey.pv][:, batch[BatchKey.pv_t0_idx] :, 0]
-input_length = x.shape[1]
-output_length = y.shape[1]
+def get_dims(batch):
+    x = batch_to_x(batch)
+    y = batch[BatchKey.pv][:, batch[BatchKey.pv_t0_idx] :, 0]
+    input_length = x.shape[1]
+    output_length = y.shape[1]
+    return x, y, input_length, output_length
 
 
 def main():
+    pv_data_pipeline = simple_pv_datapipe("experiments/001/exp_001.yaml")
+    pv_data_pipeline_validation = simple_pv_datapipe(
+        "experiments/001/exp_001.yaml", tag="validation"
+    )
     train_loader = DataLoader(pv_data_pipeline, batch_size=None, num_workers=0)
     val_loader = DataLoader(pv_data_pipeline_validation, batch_size=None, num_workers=0)
-    predict_loader = DataLoader(pv_data_pipeline, batch_size=None, num_workers=0)
+    dl = DataLoader(dataset=pv_data_pipeline, batch_size=None)
+    pv_iter = iter(dl)
+    batch = next(pv_iter)
+    _, _, input_length, output_length = get_dims(batch)
+
+    # Initialize a trainer
+    trainer = Trainer(
+        accelerator="auto",
+        devices=None,
+        max_epochs=10,
+    )
 
     model = Model(input_length=input_length, output_length=output_length)
-
     trainer.fit(model, train_dataloaders=train_loader, val_dataloaders=val_loader)
 
     # predict model for some plots
-    batch = next(pv_iter)
     y_hat = model(batch)
-
     plot(batch, y_hat)
 
 
+def infer():
+    pv_data_pipeline = simple_pv_datapipe("experiments/001/exp_001.yaml")
+    dl = DataLoader(pv_data_pipeline, batch_size=None, num_workers=0)
+    pv_iter = iter(dl)
+    batch = next(pv_iter)
+    x, y, input_length, output_length = get_dims(batch)
+
+    ckpts = sorted(Path("lightning_logs/version_0/checkpoints").glob("*.ckpt"))
+    ckpt = list(ckpts)[-1]
+    model = Model.load_from_checkpoint(
+        ckpt, input_length=input_length, output_length=output_length
+    )
+
+    y_hat = model(batch)
+
+    df = pd.DataFrame(
+        {
+            "y": y.detach().numpy().flatten(),
+            "y_hat": y_hat.detach().numpy().flatten(),
+        }
+    )
+    df.to_csv("experiments/001/pred.csv")
+
+
+
 if __name__ == "__main__":
-    main()
+    if sys.argv[1] == "infer":
+        infer()
+    else:
+        main()
 
 
 # results
