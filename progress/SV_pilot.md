@@ -2,7 +2,7 @@
 
 ## Summary
 
-We forecasted PV production over the next 4 hours for 4 sites in Italy. The average error was XXX. 
+We forecasted PV production over the next 4 hours for 4 sites in Italy. The average error of the forecast was 348 Watts.
 
 ## Data
 
@@ -36,9 +36,9 @@ This allows the model to learn how the PV sites are performing near the SV sites
 ### NWP 
 
 We have collected GFS data over the whole of Italy, using a 1/4 degree grid. The following variables has been used. 
-- dlwrf ( downward ): This is a fairly inaccurate prediction of solar irradiance. 
-- t (temperature): The air temperature at ground level
-- prate (perciptation rate): The amount of rainfall
+- dlwrf ( Downward Long-Wave Radiation Flux ): This is a fairly inaccurate prediction of solar irradiance. 
+- t (Temperature): The air temperature at ground level
+- prate (Precipitation Rate): The amount of rainfall
 - u,v: The 2 dimensional wind speed direction at the ground. 
 
 ### General
@@ -77,12 +77,13 @@ then produces predictions at 15 mins intervals for the next 4 hours.
 ## Training
 
 We divided the data into 2021 and 2022. 
-We trained our models using 2022, and then validated our results on 2021.
+We trained our models using 2021, and then validated our results on 2022. 
+Note that during validation we only use a random subset of 2022, rather than the whole year. 
 
 Training our models took approximately 1 hour. 
 
 ![image](./training.png)
-Figure shows how the loss decreases during a several training runs. 
+This figure shows how the error between forecast and truth decreases during a several training runs. 
 
 ## Results
 
@@ -98,18 +99,32 @@ The table below shows the different models metrics for MAE and MSE.
 
 Below shows some example predictions of PV systems. The blue line is the truth and the red line is the foreacst. 
 Note the last 4 hours of true PV values are also shown.
+
+Example of two good predictions
 ![image](./pre1.png)
-![image](./pre2.png)
 ![image](./pre3.png)
+
+The next plot shows an example of a less good predictions, 
+this particular example would be improved with satellite images
+![image](./pre2.png)
+
 
 ## Inference
 
-TODO
+We have saved a forecast from 2022-01-01 to 2022-10-01 at 15 minute time intervals to 4 hours ahead. 
 
-We have saved a forecast from 2022-01-01 to 2022-10-XX at 15 minute time intervals to 4 hours ahead. 
+The table below shows the forecast acuracy for each site. 
 
+|    | Location | Capacity [kW] | MAE [kW] |
+| ----------- | ----------- | --- | --- | 
+| 1      | Belluno       | 35 | 0.490
+| 2   | Bari        | 25 | 0.264
+| 3   | Bari        | 20 | 0.324
+| 4   | Venice        | 20  |  0.334
 
-TODO something on forecast horizon for each system
+The figure below shows the accuracy of the predictions for each system, for different time horizons. 
+A different loss function is needed to increase the accuracy of the first few time horizons steps. 
+![image](./forecast_horizon.png)
 
 ## Next Steps
 
@@ -124,6 +139,7 @@ The models are currently only trained for a limited number of epochs.
 For some models, we did not see any over fitting to the training data, 
 therefore it would be good to extend training to reduce the errors even more. 
 
+It would be good to use a loss function that focuses the model on the first few time horizons, as these should be simpler to predict.
 
 ### Models
 

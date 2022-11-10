@@ -110,11 +110,11 @@ def post_process(  # type: ignore[no-any-unimported]
 
 
 def main(
-    config: Path = Path("inference/infer.yaml"),
+    config: Path = Path("infer.yaml"),
     module: str = "experiments.e001.experiment_001",
-    ckpt_dir: Path = Path("lightning_logs/version_0/checkpoints"),
+    ckpt_dir: Path = Path("../lightning_logs/version_0/checkpoints"),
     batches: int = int((1.2 * 4 * 365 * 24 * 60) / (15 * 32)),
-    output_dir: Path = Path("inference"),
+    output_dir: Path = Path(""),
     output_suffix: str = "000",
 ) -> None:
     ckpt_path = list(sorted(ckpt_dir.glob("*.ckpt")))[-1]
@@ -129,4 +129,4 @@ def main(
 
 
 if __name__ == "__main__":
-    typer.run(main)
+    main()
