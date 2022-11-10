@@ -4,12 +4,13 @@ Train on both SV and pvoutout.org sites
 import logging
 import os
 
+import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
 import pytorch_lightning as pl
 import torch
 import torch.nn.functional as F
-from ocf_datapipes.training.simple_pv import simple_pv_datapipe
+from ocf_datapipes.training.nwp_pv import nwp_pv_datapipe
 from ocf_datapipes.utils.consts import BatchKey
 from plotly.subplots import make_subplots
 from pytorch_lightning import Trainer
@@ -25,21 +26,25 @@ from pytorch_lightning.loggers import WandbLogger
 logger = logging.getLogger(__name__)
 
 # set up logging
-# logging.basicConfig(
-#     level=getattr(logging, "INFO"),
-#     format="[%(asctime)s] {%(pathname)s:%(lineno)d} %(levelname)s - %(message)s",
-# )
-wandb_logger = WandbLogger(project="pv-italy",name='exp-3-pv-10')
+logging.basicConfig(
+    level=getattr(logging, "INFO"),
+    format="[%(asctime)s] {%(pathname)s:%(lineno)d} %(levelname)s - %(message)s",
+)
+wandb_logger = WandbLogger(project="pv-italy",name='exp-4-pv+nwp')
 
 
-pv_data_pipeline = simple_pv_datapipe("experiments/003/exp_003.yaml")
-pv_data_pipeline_validation = simple_pv_datapipe("experiments/003/exp_003_validation.yaml", tag='validation')
-
-# train_loader = DataLoader(dataset=pv_data_pipeline, batch_size=None)
-# pv_iter = iter(train_loader)
+nwp_pv_data_pipeline = nwp_pv_datapipe("experiments/e004/exp_004.yaml")
+nwp_pv_data_pipeline_validation = nwp_pv_datapipe("experiments/e004/exp_004_validation.yaml", tag='validation')
+#
+# train_loader = DataLoader(dataset=nwp_pv_data_pipeline, batch_size=None)
+# pv_iter = iter(nwp_pv_data_pipeline)
 #
 # # get a batch
 # batch = next(pv_iter)
+# print('print')
+# print(batch)
+# batch = next(pv_iter)
+# print(batch)
 
 
 def plot(batch, y_hat):
@@ -72,12 +77,12 @@ def plot(batch, y_hat):
         fig.show(renderer="browser")
     except:
         pass
-
+#
 
 def batch_to_x(batch):
 
     pv_t0_idx = batch[BatchKey.pv_t0_idx]
-    # nwp_t0_idx = batch[BatchKey.nwp_t0_idx]
+    nwp_t0_idx = batch[BatchKey.nwp_t0_idx]
 
     # x,y locations
     x_osgb = batch[BatchKey.pv_x_osgb] / 10 ** 6
@@ -91,8 +96,9 @@ def batch_to_x(batch):
     sun_az = batch[BatchKey.pv_solar_azimuth][:, pv_t0_idx:]
 
     # future nwp
-    # nwp = batch[BatchKey.nwp][:, nwp_t0_idx:]
-    # nwp = nwp.reshape([nwp.shape[0], nwp.shape[1] * nwp.shape[2]])
+    nwp = batch[BatchKey.nwp][:, nwp_t0_idx:]
+    nwp = nwp.reshape([nwp.shape[0], np.prod(nwp.shape[1:])])
+    nwp =torch.nan_to_num(nwp,-1)
 
     # fourier features on pv time
     pv_time_utc_fourier = batch[BatchKey.pv_time_utc_fourier]
@@ -103,8 +109,10 @@ def batch_to_x(batch):
     # history pv
     pv = batch[BatchKey.pv][:, :pv_t0_idx, 0].nan_to_num(0.0)
     x = torch.concat(
-        (pv, sun, sun_az, x_osgb, y_osgb, pv_capacity, pv_time_utc_fourier), dim=1
+        (pv, sun, sun_az, x_osgb, y_osgb, pv_capacity, pv_time_utc_fourier, nwp), dim=1
     )
+
+    x = x.type(torch.float32)
 
     return x
 
@@ -218,6 +226,7 @@ trainer = Trainer(
     reload_dataloaders_every_n_epochs=10,
     logger=wandb_logger,
     log_every_n_steps=5,
+    default_root_dir="/ckpt/",
 )
 
 # x = batch_to_x(batch)
@@ -230,14 +239,14 @@ print('******')
 # print(f'{output_length}')
 print('******')
 
-input_length = 317
+input_length = 317+100
 output_length = 17
 
 
 def main():
-    train_loader = DataLoader(pv_data_pipeline, batch_size=None, num_workers=4)
-    val_loader = DataLoader(pv_data_pipeline_validation, batch_size=None, num_workers=2)
-    predict_loader = DataLoader(pv_data_pipeline, batch_size=None, num_workers=0)
+    train_loader = DataLoader(nwp_pv_data_pipeline, batch_size=None, num_workers=0)
+    val_loader = DataLoader(nwp_pv_data_pipeline_validation, batch_size=None, num_workers=0)
+    predict_loader = DataLoader(nwp_pv_data_pipeline, batch_size=None, num_workers=0)
 
     model = Model(input_length=input_length, output_length=output_length)
 
@@ -251,24 +260,5 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-# results
-# 1. All sites, after 1, 2,3  epochs
-# mse = 0.023, 0.0106, 0.0122
-# mae = 0.0737, 0.0498, 0.0532
-
-# results
-# 2. Adding embedding, after 1, 2,3 epochs
-# mse = 0.0253, 0.0205
-# mae = 0.0741, 0.0737
-
-# 3. only using 10 pv output.org sites
-# mse_val = 0.0217, 0.123, 0.00682, 0.0114,0.0067, 0.00689, 0.00489,
-# mae_val = 0.0735, 0.564 ,0.0404, 0.524, 0.0386, 0.0359, 0.0293,
-
-# 4. only using 0 pv output.org sites
-# mse_val =
-# mae_val =
 
 

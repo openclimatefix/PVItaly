@@ -28,7 +28,7 @@ logging.basicConfig(
 )
 
 
-pv_data_pipeline = simple_pv_datapipe("experiments/002/exp_002.yaml", tag='validation')
+pv_data_pipeline = simple_pv_datapipe("experiments/e002/exp_002.yaml", tag='validation')
 
 dl = DataLoader(dataset=pv_data_pipeline, batch_size=None)
 pv_iter = iter(dl)

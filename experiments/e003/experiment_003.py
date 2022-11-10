@@ -1,4 +1,8 @@
+"""
+Train on both SV and pvoutout.org sites
+"""
 import logging
+import os
 
 import pandas as pd
 import plotly.graph_objects as go
@@ -12,28 +16,30 @@ from pytorch_lightning import Trainer
 from torch import nn
 from torch.utils.data import DataLoader
 from torchmetrics import MeanSquaredLogError
+# from neptune.new.integrations.pytorch_lightning import NeptuneLogger
+# import neptune.new as neptune
+
 from pytorch_lightning.loggers import WandbLogger
 
 
 logger = logging.getLogger(__name__)
 
-wandb_logger = WandbLogger(project="pv-italy", name='exp-1-pv-sv')
-
 # set up logging
-logging.basicConfig(
-    level=getattr(logging, "INFO"),
-    format="[%(asctime)s] {%(pathname)s:%(lineno)d} %(levelname)s - %(message)s",
-)
+# logging.basicConfig(
+#     level=getattr(logging, "INFO"),
+#     format="[%(asctime)s] {%(pathname)s:%(lineno)d} %(levelname)s - %(message)s",
+# )
+wandb_logger = WandbLogger(project="pv-italy",name='exp-3-pv-10')
 
 
-pv_data_pipeline = simple_pv_datapipe("experiments/001/exp_001.yaml")
-pv_data_pipeline_validation = simple_pv_datapipe("experiments/001/exp_001.yaml", tag='validation')
+pv_data_pipeline = simple_pv_datapipe("experiments/e003/exp_003.yaml")
+pv_data_pipeline_validation = simple_pv_datapipe("experiments/e003/exp_003_validation.yaml", tag='validation')
 
-dl = DataLoader(dataset=pv_data_pipeline, batch_size=None)
-pv_iter = iter(dl)
-
-# get a batch
-batch = next(pv_iter)
+# train_loader = DataLoader(dataset=pv_data_pipeline, batch_size=None)
+# pv_iter = iter(train_loader)
+#
+# # get a batch
+# batch = next(pv_iter)
 
 
 def plot(batch, y_hat):
@@ -61,6 +67,7 @@ def plot(batch, y_hat):
         fig.add_trace(trace_2, row=row, col=col)
 
     fig.update_yaxes(range=[0, 1])
+
     try:
         fig.show(renderer="browser")
     except:
@@ -126,15 +133,14 @@ class BaseModel(pl.LightningModule):
         msle_loss = MeanSquaredLogError()(y_hat, y)
 
         loss = mse_loss + mae_loss + 0.1*bce_loss
-        if tag=='val':
-            on_step = False
-        else:
-            on_step = True
 
-        self.log(f"mse_{tag}", mse_loss, on_step=on_step, on_epoch=True, prog_bar=True)
-        self.log(f"msle_{tag}", msle_loss, on_step=on_step, on_epoch=True, prog_bar=True)
-        self.log(f"mae_{tag}", mae_loss, on_step=on_step, on_epoch=True, prog_bar=True)
-        self.log(f"bce_{tag}", bce_loss, on_step=on_step, on_epoch=True, prog_bar=True)
+        on_step = True
+
+        self.log(f"mse_{tag}", mse_loss, on_step=on_step, on_epoch=True, prog_bar=True, sync_dist=True)
+        self.log(f"msle_{tag}", msle_loss, on_step=on_step, on_epoch=True, prog_bar=True, sync_dist=True)
+        self.log(f"mae_{tag}", mae_loss, on_step=on_step, on_epoch=True, prog_bar=True, sync_dist=True)
+        self.log(f"bce_{tag}", bce_loss, on_step=on_step, on_epoch=True, prog_bar=True, sync_dist=True)
+        self.log(f"loss_{tag}", loss, on_step=on_step, on_epoch=True, prog_bar=True, sync_dist=True)
 
         if return_model_outputs:
             return loss, y_hat
@@ -176,19 +182,21 @@ class Model(BaseModel):
         self.fc3 = nn.Linear(in_features=features, out_features=features)
 
         # move embedding up a layer (or top)
-        # self.pv_system_id_embedding = nn.Embedding(num_embeddings=20000, embedding_dim=16)
-        self.fc4 = nn.Linear(in_features=features, out_features=output_length)
+        self.pv_system_id_embedding = nn.Embedding(num_embeddings=1000, embedding_dim=16)
+        self.fc4 = nn.Linear(in_features=features + 16, out_features=output_length)
 
     def forward(self, x):
+
+        id_embedding = self.pv_system_id_embedding(x[BatchKey.pv_system_row_number].type(torch.IntTensor))
+
         x = batch_to_x(x)
 
         out = F.relu(self.fc1(x))
         out = F.relu(self.fc2(out))
         out = F.relu(self.fc3(out))
 
-        # id_embedding = self.pv_system_id_embedding(batch[BatchKey.pv_id].type(torch.IntTensor))
-        # id_embedding = id_embedding.squeeze(1)
-        # out = torch.concat([out, id_embedding], dim=1)
+        id_embedding = id_embedding.squeeze(1)
+        out = torch.concat([out, id_embedding], dim=1)
 
         out = torch.sigmoid(self.fc4(out))
         # out = self.fc4(out)
@@ -199,23 +207,36 @@ class Model(BaseModel):
 
         return out
 
-
 # Initialize a trainer
 trainer = Trainer(
     accelerator="auto",
     devices=None,
     max_epochs=10,
+    limit_train_batches=90,
+    limit_val_batches=10,
+    val_check_interval=90,
+    reload_dataloaders_every_n_epochs=10,
+    logger=wandb_logger,
+    log_every_n_steps=5,
 )
 
-x = batch_to_x(batch)
-y = batch[BatchKey.pv][:, batch[BatchKey.pv_t0_idx] :, 0]
-input_length = x.shape[1]
-output_length = y.shape[1]
+# x = batch_to_x(batch)
+# y = batch[BatchKey.pv][:, batch[BatchKey.pv_t0_idx] :, 0]
+# input_length = x.shape[1]
+# output_length = y.shape[1]
+
+print('******')
+# print(f'{input_length}')
+# print(f'{output_length}')
+print('******')
+
+input_length = 317
+output_length = 17
 
 
 def main():
-    train_loader = DataLoader(pv_data_pipeline, batch_size=None, num_workers=0)
-    val_loader = DataLoader(pv_data_pipeline_validation, batch_size=None, num_workers=0)
+    train_loader = DataLoader(pv_data_pipeline, batch_size=None, num_workers=4)
+    val_loader = DataLoader(pv_data_pipeline_validation, batch_size=None, num_workers=2)
     predict_loader = DataLoader(pv_data_pipeline, batch_size=None, num_workers=0)
 
     model = Model(input_length=input_length, output_length=output_length)
@@ -223,7 +244,7 @@ def main():
     trainer.fit(model, train_dataloaders=train_loader, val_dataloaders=val_loader)
 
     # predict model for some plots
-    batch = next(pv_iter)
+    batch = next(val_loader)
     y_hat = model(batch)
 
     plot(batch, y_hat)
@@ -233,6 +254,21 @@ if __name__ == "__main__":
 
 
 # results
-# 1. just using SV, after 10 epochs
-# mse = 0.00475
-# mae = 0.0325
+# 1. All sites, after 1, 2,3  epochs
+# mse = 0.023, 0.0106, 0.0122
+# mae = 0.0737, 0.0498, 0.0532
+
+# results
+# 2. Adding embedding, after 1, 2,3 epochs
+# mse = 0.0253, 0.0205
+# mae = 0.0741, 0.0737
+
+# 3. only using 10 pv output.org sites
+# mse_val = 0.0217, 0.123, 0.00682, 0.0114,0.0067, 0.00689, 0.00489,
+# mae_val = 0.0735, 0.564 ,0.0404, 0.524, 0.0386, 0.0359, 0.0293,
+
+# 4. only using 0 pv output.org sites
+# mse_val =
+# mae_val =
+
+
