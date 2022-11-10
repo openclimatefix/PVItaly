@@ -1,0 +1,14 @@
+cfgrib  # may need to apt install libeccodes-dev libeccodes-tools
+dask
+datasets
+ecmwf-api-client
+python-dotenv
+httpx
+huggingface-hub
+planetary-computer
+pystac-client
+python-dotenv
+tqdm
+typer[all]>=0.7.0
+xarray
+zarr

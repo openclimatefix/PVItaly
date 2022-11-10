@@ -4,18 +4,17 @@ import pandas as pd
 import plotly.graph_objects as go
 import pytorch_lightning as pl
 import torch
-import torch.nn.functional as F
 from ocf_datapipes.training.simple_pv import simple_pv_datapipe
 from ocf_datapipes.utils.consts import BatchKey
 from plotly.subplots import make_subplots
 from pytorch_lightning import Trainer
-from torch import nn
 from torch.utils.data import DataLoader
 from torchmetrics import MeanSquaredLogError
 
 
 baseline = 'zero'
 baseline = 'persist'
+
 
 logger = logging.getLogger(__name__)
 from pytorch_lightning.loggers import WandbLogger
@@ -27,8 +26,8 @@ logging.basicConfig(
     format="[%(asctime)s] {%(pathname)s:%(lineno)d} %(levelname)s - %(message)s",
 )
 
-
 pv_data_pipeline = simple_pv_datapipe("experiments/e002/exp_002.yaml", tag='validation')
+
 
 dl = DataLoader(dataset=pv_data_pipeline, batch_size=None)
 pv_iter = iter(dl)
@@ -55,7 +54,10 @@ def plot(batch, y_hat):
             x=time_i, y=y[i].detach().numpy(), name="truth", line=dict(color="blue")
         )
         trace_2 = go.Scatter(
-            x=time_y_hat_i, y=y_hat[i].detach().numpy(), name="predict", line=dict(color="red")
+            x=time_y_hat_i,
+            y=y_hat[i].detach().numpy(),
+            name="predict",
+            line=dict(color="red"),
         )
 
         fig.add_trace(trace_1, row=row, col=col)
@@ -84,7 +86,9 @@ class BaseModel(pl.LightningModule):
     def __init__(self):
         super().__init__()
 
-    def _training_or_validation_step(self, x, return_model_outputs: bool = False, tag='train'):
+    def _training_or_validation_step(
+        self, x, return_model_outputs: bool = False, tag="train"
+    ):
         """
         batch: The batch data
         tag: either 'Train', 'Validation' , 'Test'
@@ -110,7 +114,9 @@ class BaseModel(pl.LightningModule):
             on_step = True
 
         self.log(f"mse_{tag}", mse_loss, on_step=on_step, on_epoch=True, prog_bar=True)
-        self.log(f"msle_{tag}", msle_loss, on_step=on_step, on_epoch=True, prog_bar=True)
+        self.log(
+            f"msle_{tag}", msle_loss, on_step=on_step, on_epoch=True, prog_bar=True
+        )
         self.log(f"mae_{tag}", mae_loss, on_step=on_step, on_epoch=True, prog_bar=True)
         self.log(f"bce_{tag}", bce_loss, on_step=on_step, on_epoch=True, prog_bar=True)
 
@@ -124,14 +130,14 @@ class BaseModel(pl.LightningModule):
         if batch_idx < 1:
             plot(x, self(x))
 
-        return self._training_or_validation_step(x, tag='tra')
+        return self._training_or_validation_step(x, tag="tra")
 
     def validation_step(self, x, batch_idx):
 
         if batch_idx < 1:
             plot(x, self(x))
 
-        return self._training_or_validation_step(x,tag='val')
+        return self._training_or_validation_step(x, tag="val")
 
     def predict_step(self, x, batch_idx, dataloader_idx=0):
         return x, self(x)
@@ -147,7 +153,6 @@ class BaseModel(pl.LightningModule):
 class Model(BaseModel):
     def __init__(self, input_length, output_length):
         super().__init__()
-        features = 128
         self.input_length = input_length
         self.output_length = output_length
 
@@ -193,6 +198,7 @@ def main():
 
     plot(batch, y_hat)
 
+
 if __name__ == "__main__":
     main()
 
@@ -205,4 +211,3 @@ if __name__ == "__main__":
 # 2. persistance
 # mse = 0.024
 # mae = 0.078
-

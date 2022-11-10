@@ -21,7 +21,6 @@ from torchmetrics import MeanSquaredLogError
 
 from pytorch_lightning.loggers import WandbLogger
 
-
 logger = logging.getLogger(__name__)
 
 # set up logging
@@ -60,7 +59,10 @@ def plot(batch, y_hat):
             x=time_i, y=y[i].detach().numpy(), name="truth", line=dict(color="blue")
         )
         trace_2 = go.Scatter(
-            x=time_y_hat_i, y=y_hat[i].detach().numpy(), name="predict", line=dict(color="red")
+            x=time_y_hat_i,
+            y=y_hat[i].detach().numpy(),
+            name="predict",
+            line=dict(color="red"),
         )
 
         fig.add_trace(trace_1, row=row, col=col)
@@ -80,8 +82,8 @@ def batch_to_x(batch):
     # nwp_t0_idx = batch[BatchKey.nwp_t0_idx]
 
     # x,y locations
-    x_osgb = batch[BatchKey.pv_x_osgb] / 10 ** 6
-    y_osgb = batch[BatchKey.pv_y_osgb] / 10 ** 6
+    x_osgb = batch[BatchKey.pv_x_osgb] / 10**6
+    y_osgb = batch[BatchKey.pv_y_osgb] / 10**6
 
     # add pv capacity
     pv_capacity = batch[BatchKey.pv_capacity_watt_power] / 1000
@@ -97,7 +99,10 @@ def batch_to_x(batch):
     # fourier features on pv time
     pv_time_utc_fourier = batch[BatchKey.pv_time_utc_fourier]
     pv_time_utc_fourier = pv_time_utc_fourier.reshape(
-        [pv_time_utc_fourier.shape[0], pv_time_utc_fourier.shape[1] * pv_time_utc_fourier.shape[2]]
+        [
+            pv_time_utc_fourier.shape[0],
+            pv_time_utc_fourier.shape[1] * pv_time_utc_fourier.shape[2],
+        ]
     )
 
     # history pv
@@ -113,7 +118,9 @@ class BaseModel(pl.LightningModule):
     def __init__(self):
         super().__init__()
 
-    def _training_or_validation_step(self, x, return_model_outputs: bool = False, tag='train'):
+    def _training_or_validation_step(
+        self, x, return_model_outputs: bool = False, tag="train"
+    ):
         """
         batch: The batch data
         tag: either 'Train', 'Validation' , 'Test'
@@ -152,14 +159,14 @@ class BaseModel(pl.LightningModule):
         if batch_idx < 1:
             plot(x, self(x))
 
-        return self._training_or_validation_step(x, tag='tra')
+        return self._training_or_validation_step(x, tag="tra")
 
     def validation_step(self, x, batch_idx):
 
         if batch_idx < 1:
             plot(x, self(x))
 
-        return self._training_or_validation_step(x,tag='val')
+        return self._training_or_validation_step(x, tag="val")
 
     def predict_step(self, x, batch_idx, dataloader_idx=0):
         return x, self(x)
@@ -248,6 +255,7 @@ def main():
     y_hat = model(batch)
 
     plot(batch, y_hat)
+
 
 if __name__ == "__main__":
     main()
