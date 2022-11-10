@@ -226,6 +226,7 @@ trainer = Trainer(
     reload_dataloaders_every_n_epochs=10,
     logger=wandb_logger,
     log_every_n_steps=5,
+    default_root_dir="/ckpt/",
 )
 
 # x = batch_to_x(batch)

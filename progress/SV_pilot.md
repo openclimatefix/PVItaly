@@ -29,6 +29,7 @@ The following filters were used.
 ### PVoutput.org
 
 We downloaded 436 sites from Italy from [PVoutput.org](https://pvoutput.org/region.jsp?country=117). 
+This allows the model to learn how the PV sites are performing near the SV sites. 
 
 ![image](./PV_sites.png)
 
@@ -62,8 +63,6 @@ The following different baselines were looked at:
 See results [here](SV_pilot.md#Results).  
 
 
-
-
 ###  PV-FC 
 
 The idea is to use a 3 hidden layered of FC (full connection) neural network. 
@@ -91,11 +90,10 @@ The table below shows the different models metrics for MAE and MSE.
 
 |               | MAE [%]   | MSE [%] | link
 | -----------   | --------- | --- | --- |
-| Zero          | 10.07      | 4.26 | [baseline1](https://wandb.ai/openclimatefix/pv-italy/runs/13xw5y6p)
-| Persist       | 6.96       | 2.1 | [baseline2](https://wandb.ai/openclimatefix/pv-italy/runs/2b2wjxww)
-| SV sites only | 2.51      | 0.374 | [pv_sv](https://wandb.ai/openclimatefix/pv-italy/runs/3aix2ijd)
-| SV + 10 sites |           |    | [pv]()
-| PV and NWP    |           |    | [nwp](https://wandb.ai/openclimatefix/pv-italy/runs/2ekjl5ld)
+| Zero          | 10.07     | 4.26 | [baseline1](https://wandb.ai/openclimatefix/pv-italy/runs/13xw5y6p)
+| Persist       | 6.96      | 2.1 | [baseline2](https://wandb.ai/openclimatefix/pv-italy/runs/2b2wjxww)
+| PV only       | 2.95      | 0.474 | [pv_sv](https://wandb.ai/openclimatefix/pv-italy/runs/3aix2ijd)
+| PV and NWP    | 2.24      |  0.0294  | [nwp](https://wandb.ai/openclimatefix/pv-italy/runs/2ekjl5ld)
 
 
 Below shows some example predictions of PV systems. The blue line is the truth and the red line is the foreacst. 
@@ -104,12 +102,28 @@ Note the last 4 hours of true PV values are also shown.
 ![image](./pre2.png)
 ![image](./pre3.png)
 
+## Inference
+
+TODO
+
+We have saved a forecast from 2022-01-01 to 2022-10-XX at 15 minute time intervals to 4 hours ahead. 
+
+
+TODO something on forecast horizon for each system
+
 ## Next Steps
 
 ### Data Satellite
 
 It would be great to use Satellite information aswell and our models could easily be extended in the future.
 In previous models with have seen 16% in accuracy.  
+
+### Training
+
+The models are currently only trained for a limited number of epochs. 
+For some models, we did not see any over fitting to the training data, 
+therefore it would be good to extend training to reduce the errors even more. 
+
 
 ### Models
 
