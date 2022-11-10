@@ -21,7 +21,7 @@ input_data:
     end_datetime: 2022-01-01 00:00
     time_resolution_minutes: 15
   nwp:
-    nwp_zarr_path: experiments/004/gfs.zarr
+    nwp_zarr_path: experiments/e004/gfs.zarr
     history_minutes: 0
     forecast_minutes: 240
     time_resolution_minutes: 60
