@@ -11,7 +11,6 @@ from pytorch_lightning import Trainer
 from torch.utils.data import DataLoader
 from torchmetrics import MeanSquaredLogError
 
-
 baseline = 'zero'
 baseline = 'persist'
 
@@ -27,7 +26,6 @@ logging.basicConfig(
 )
 
 pv_data_pipeline = simple_pv_datapipe("experiments/e002/exp_002.yaml", tag='validation')
-
 
 dl = DataLoader(dataset=pv_data_pipeline, batch_size=None)
 pv_iter = iter(dl)
@@ -163,6 +161,9 @@ class Model(BaseModel):
             out = x[:,-1:].repeat((1,self.output_length))
         elif baseline == 'zero':
             out = torch.zeros((x.shape[0], self.output_length))
+
+        out = x[:, -1:].repeat((1, self.output_length))
+        # out = torch.zeros((x.shape[0], self.output_length))
 
         return out
 

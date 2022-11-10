@@ -4,12 +4,16 @@ Train on both SV and pvoutout.org sites
 import logging
 import os
 
+
+import numpy as np
+
 import pandas as pd
 import plotly.graph_objects as go
 import pytorch_lightning as pl
 import torch
 import torch.nn.functional as F
 from ocf_datapipes.training.simple_pv import simple_pv_datapipe
+from ocf_datapipes.training.nwp_pv import nwp_pv_datapipe
 from ocf_datapipes.utils.consts import BatchKey
 from plotly.subplots import make_subplots
 from pytorch_lightning import Trainer
@@ -20,6 +24,8 @@ from torchmetrics import MeanSquaredLogError
 # import neptune.new as neptune
 
 from pytorch_lightning.loggers import WandbLogger
+from pytorch_lightning.callbacks import ModelCheckpoint
+
 
 logger = logging.getLogger(__name__)
 
@@ -39,6 +45,26 @@ pv_data_pipeline_validation = simple_pv_datapipe("experiments/e003/exp_003_valid
 #
 # # get a batch
 # batch = next(pv_iter)
+
+logging.basicConfig(
+    level=getattr(logging, "INFO"),
+    format="[%(asctime)s] {%(pathname)s:%(lineno)d} %(levelname)s - %(message)s",
+)
+wandb_logger = WandbLogger(project="pv-italy",name='exp-4-pv+nwp')
+
+
+nwp_pv_data_pipeline = nwp_pv_datapipe("experiments/e004/exp_004.yaml")
+nwp_pv_data_pipeline_validation = nwp_pv_datapipe("experiments/e004/exp_004_validation.yaml", tag='validation')
+#
+# train_loader = DataLoader(dataset=nwp_pv_data_pipeline, batch_size=None)
+# pv_iter = iter(nwp_pv_data_pipeline)
+#
+# # get a batch
+# batch = next(pv_iter)
+# print('print')
+# print(batch)
+# batch = next(pv_iter)
+# print(batch)
 
 
 def plot(batch, y_hat):
@@ -75,7 +101,6 @@ def plot(batch, y_hat):
     except:
         pass
 
-
 def batch_to_x(batch):
 
     pv_t0_idx = batch[BatchKey.pv_t0_idx]
@@ -110,6 +135,8 @@ def batch_to_x(batch):
     x = torch.concat(
         (pv, sun, sun_az, x_osgb, y_osgb, pv_capacity, pv_time_utc_fourier), dim=1
     )
+
+    x = x.type(torch.float32)
 
     return x
 
@@ -148,6 +175,19 @@ class BaseModel(pl.LightningModule):
         self.log(f"mae_{tag}", mae_loss, on_step=on_step, on_epoch=True, prog_bar=True, sync_dist=True)
         self.log(f"bce_{tag}", bce_loss, on_step=on_step, on_epoch=True, prog_bar=True, sync_dist=True)
         self.log(f"loss_{tag}", loss, on_step=on_step, on_epoch=True, prog_bar=True, sync_dist=True)
+
+        loss = mse_loss + mae_loss + 0.1 * bce_loss
+        if tag == "val":
+            on_step = False
+        else:
+            on_step = True
+
+        self.log(f"mse_{tag}", mse_loss, on_step=on_step, on_epoch=True, prog_bar=True)
+        self.log(
+            f"msle_{tag}", msle_loss, on_step=on_step, on_epoch=True, prog_bar=True
+        )
+        self.log(f"mae_{tag}", mae_loss, on_step=on_step, on_epoch=True, prog_bar=True)
+        self.log(f"bce_{tag}", bce_loss, on_step=on_step, on_epoch=True, prog_bar=True)
 
         if return_model_outputs:
             return loss, y_hat
@@ -215,6 +255,11 @@ class Model(BaseModel):
         return out
 
 # Initialize a trainer
+
+
+# Initialize a trainer
+checkpoint_callback = ModelCheckpoint(dirpath="./ckpt/", save_top_k=2, monitor="loss_val_epoch")
+
 trainer = Trainer(
     accelerator="auto",
     devices=None,
@@ -225,6 +270,8 @@ trainer = Trainer(
     reload_dataloaders_every_n_epochs=10,
     logger=wandb_logger,
     log_every_n_steps=5,
+    default_root_dir="/ckpt/",
+    callbacks=[checkpoint_callback]
 )
 
 # x = batch_to_x(batch)
@@ -242,6 +289,7 @@ output_length = 17
 
 
 def main():
+
     train_loader = DataLoader(pv_data_pipeline, batch_size=None, num_workers=4)
     val_loader = DataLoader(pv_data_pipeline_validation, batch_size=None, num_workers=2)
     predict_loader = DataLoader(pv_data_pipeline, batch_size=None, num_workers=0)
@@ -259,24 +307,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-# results
-# 1. All sites, after 1, 2,3  epochs
-# mse = 0.023, 0.0106, 0.0122
-# mae = 0.0737, 0.0498, 0.0532
-
-# results
-# 2. Adding embedding, after 1, 2,3 epochs
-# mse = 0.0253, 0.0205
-# mae = 0.0741, 0.0737
-
-# 3. only using 10 pv output.org sites
-# mse_val = 0.0217, 0.123, 0.00682, 0.0114,0.0067, 0.00689, 0.00489,
-# mae_val = 0.0735, 0.564 ,0.0404, 0.524, 0.0386, 0.0359, 0.0293,
-
-# 4. only using 0 pv output.org sites
-# mse_val =
-# mae_val =
-
 
