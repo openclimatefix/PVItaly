@@ -218,7 +218,7 @@ class Model(BaseModel):
 
 
 # Initialize a trainer
-checkpoint_callback = ModelCheckpoint(dirpath="./ckpt/", save_top_k=2, monitor="val_loss")
+checkpoint_callback = ModelCheckpoint(dirpath="./ckpt/", save_top_k=2, monitor="loss_val_epoch")
 trainer = Trainer(
     accelerator="auto",
     devices=None,
