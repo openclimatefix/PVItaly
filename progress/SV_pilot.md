@@ -149,7 +149,7 @@ It would be good to use a loss function that focuses the model on the first few 
 
 We would like to use some deep neural networks to enhance our results. 
 
-1. PVnet - [link](TODO WP2 report)
-2. Metnet - [link](https://arxiv.org/abs/2003.12140)
+1. PVnet - [Conv3d](https://drive.google.com/file/d/1sDKZ8WEJlTNa5oyonbNl2xGyZ7GLXKtQ/view)
+2. [Metnet](https://arxiv.org/abs/2003.12140)
 
 Both these methods would allow a lot more spatial data to be used to make the predictions more accuracy. 
