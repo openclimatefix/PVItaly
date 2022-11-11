@@ -106,11 +106,11 @@ Note the historic 4 hours of true PV values are also shown.
 
 Example of two good predictions
 ![image](./pre1.png)
-![image](./pre3.png)
+![image](./pre2.png)
 
 The next plot shows an example of a less good predictions, 
 this particular example would be improved with satellite images
-![image](./pre2.png)
+![image](./pre3.png)
 
 
 ## Inference
