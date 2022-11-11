@@ -17,6 +17,7 @@ from pytorch_lightning import Trainer
 from torch import nn
 from torch.utils.data import DataLoader
 from torchmetrics import MeanSquaredLogError
+
 # from neptune.new.integrations.pytorch_lightning import NeptuneLogger
 # import neptune.new as neptune
 
@@ -30,10 +31,12 @@ logging.basicConfig(
     level=getattr(logging, "INFO"),
     format="[%(asctime)s] {%(pathname)s:%(lineno)d} %(levelname)s - %(message)s",
 )
-wandb_logger = WandbLogger(project="pv-italy",name='exp-4-pv+nwp')
+wandb_logger = WandbLogger(project="pv-italy", name="exp-4-pv+nwp")
 
 nwp_pv_data_pipeline = nwp_pv_datapipe("experiments/e004/exp_004.yaml")
-nwp_pv_data_pipeline_validation = nwp_pv_datapipe("experiments/e004/exp_004_validation.yaml", tag='validation')
+nwp_pv_data_pipeline_validation = nwp_pv_datapipe(
+    "experiments/e004/exp_004_validation.yaml", tag="validation"
+)
 #
 # train_loader = DataLoader(dataset=nwp_pv_data_pipeline, batch_size=None)
 # pv_iter = iter(nwp_pv_data_pipeline)
@@ -79,7 +82,10 @@ def plot(batch, y_hat):
         fig.show(renderer="browser")
     except:
         pass
+
+
 #
+
 
 def batch_to_x(batch):
 
@@ -87,8 +93,8 @@ def batch_to_x(batch):
     nwp_t0_idx = batch[BatchKey.nwp_t0_idx]
 
     # x,y locations
-    x_osgb = batch[BatchKey.pv_x_osgb] / 10**6
-    y_osgb = batch[BatchKey.pv_y_osgb] / 10**6
+    x_osgb = batch[BatchKey.pv_x_osgb] / 10 ** 6
+    y_osgb = batch[BatchKey.pv_y_osgb] / 10 ** 6
 
     # add pv capacity
     pv_capacity = batch[BatchKey.pv_capacity_watt_power] / 1000
@@ -100,7 +106,7 @@ def batch_to_x(batch):
     # future nwp
     nwp = batch[BatchKey.nwp][:, nwp_t0_idx:]
     nwp = nwp.reshape([nwp.shape[0], np.prod(nwp.shape[1:])])
-    nwp =torch.nan_to_num(nwp,-1)
+    nwp = torch.nan_to_num(nwp, -1)
 
     # fourier features on pv time
     pv_time_utc_fourier = batch[BatchKey.pv_time_utc_fourier]
@@ -126,9 +132,7 @@ class BaseModel(pl.LightningModule):
     def __init__(self):
         super().__init__()
 
-    def _training_or_validation_step(
-        self, x, return_model_outputs: bool = False, tag="train"
-    ):
+    def _training_or_validation_step(self, x, return_model_outputs: bool = False, tag="train"):
         """
         batch: The batch data
         tag: either 'Train', 'Validation' , 'Test'
@@ -147,14 +151,22 @@ class BaseModel(pl.LightningModule):
         bce_loss = torch.nn.BCELoss()(y_hat, y)
         msle_loss = MeanSquaredLogError()(y_hat, y)
 
-        loss = mse_loss + mae_loss + 0.1*bce_loss
+        loss = mse_loss + mae_loss + 0.1 * bce_loss
 
         on_step = True
 
-        self.log(f"mse_{tag}", mse_loss, on_step=on_step, on_epoch=True, prog_bar=True, sync_dist=True)
-        self.log(f"msle_{tag}", msle_loss, on_step=on_step, on_epoch=True, prog_bar=True, sync_dist=True)
-        self.log(f"mae_{tag}", mae_loss, on_step=on_step, on_epoch=True, prog_bar=True, sync_dist=True)
-        self.log(f"bce_{tag}", bce_loss, on_step=on_step, on_epoch=True, prog_bar=True, sync_dist=True)
+        self.log(
+            f"mse_{tag}", mse_loss, on_step=on_step, on_epoch=True, prog_bar=True, sync_dist=True
+        )
+        self.log(
+            f"msle_{tag}", msle_loss, on_step=on_step, on_epoch=True, prog_bar=True, sync_dist=True
+        )
+        self.log(
+            f"mae_{tag}", mae_loss, on_step=on_step, on_epoch=True, prog_bar=True, sync_dist=True
+        )
+        self.log(
+            f"bce_{tag}", bce_loss, on_step=on_step, on_epoch=True, prog_bar=True, sync_dist=True
+        )
         self.log(f"loss_{tag}", loss, on_step=on_step, on_epoch=True, prog_bar=True, sync_dist=True)
 
         if return_model_outputs:
@@ -202,7 +214,9 @@ class Model(BaseModel):
 
     def forward(self, x):
 
-        id_embedding = self.pv_system_id_embedding(x[BatchKey.pv_system_row_number].type(torch.IntTensor))
+        id_embedding = self.pv_system_id_embedding(
+            x[BatchKey.pv_system_row_number].type(torch.IntTensor)
+        )
 
         x = batch_to_x(x)
 
@@ -236,7 +250,7 @@ trainer = Trainer(
     logger=wandb_logger,
     log_every_n_steps=5,
     default_root_dir="/ckpt/",
-    callbacks=[checkpoint_callback]
+    callbacks=[checkpoint_callback],
 )
 
 # x = batch_to_x(batch)
@@ -244,12 +258,12 @@ trainer = Trainer(
 # input_length = x.shape[1]
 # output_length = y.shape[1]
 
-print('******')
+print("******")
 # print(f'{input_length}')
 # print(f'{output_length}')
-print('******')
+print("******")
 
-input_length = 317+100
+input_length = 317 + 100
 output_length = 17
 
 
@@ -271,5 +285,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-

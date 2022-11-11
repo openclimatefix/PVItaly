@@ -23,7 +23,7 @@ START_DATE = pd.Timestamp("1950-01-01")
 END_DATE = pd.Timestamp("2022-10-01")
 
 logging.basicConfig(
-    level=getattr(logging, 'INFO'),
+    level=getattr(logging, "INFO"),
     format="[%(asctime)s] {%(pathname)s:%(lineno)d} %(levelname)s - %(message)s",
 )
 
@@ -44,7 +44,7 @@ pv_systems_filtered = pv_systems_filtered.dropna(subset=["latitude", "longitude"
 # sort by Capacity
 pv_systems_filtered.sort_values("system_DC_capacity_W", ascending=False, inplace=True)
 
-bad_systems =[25703]
+bad_systems = [25703]
 pv_systems_filtered = pv_systems_filtered[~pv_systems_filtered.index.isin(bad_systems)]
 
 # download load data
@@ -59,7 +59,7 @@ try:
         start_date=START_DATE,
         end_date=END_DATE,
         output_filename=OUTPUT_TIMESERIES_FILENAME,
-        timezone='Europe/Rome'
+        timezone="Europe/Rome",
     )
 except Exception as e:
     logger.exception("Exception! %s", e)

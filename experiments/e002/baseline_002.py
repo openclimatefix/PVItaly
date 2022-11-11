@@ -11,13 +11,14 @@ from pytorch_lightning import Trainer
 from torch.utils.data import DataLoader
 from torchmetrics import MeanSquaredLogError
 
-baseline = 'zero'
-baseline = 'persist'
+baseline = "zero"
+baseline = "persist"
 
 
 logger = logging.getLogger(__name__)
 from pytorch_lightning.loggers import WandbLogger
-wandb_logger = WandbLogger(project="pv-italy", name=f'exp-2-{baseline}')
+
+wandb_logger = WandbLogger(project="pv-italy", name=f"exp-2-{baseline}")
 
 # set up logging
 logging.basicConfig(
@@ -25,7 +26,7 @@ logging.basicConfig(
     format="[%(asctime)s] {%(pathname)s:%(lineno)d} %(levelname)s - %(message)s",
 )
 
-pv_data_pipeline = simple_pv_datapipe("experiments/e002/exp_002.yaml", tag='validation')
+pv_data_pipeline = simple_pv_datapipe("experiments/e002/exp_002.yaml", tag="validation")
 
 dl = DataLoader(dataset=pv_data_pipeline, batch_size=None)
 pv_iter = iter(dl)
@@ -84,9 +85,7 @@ class BaseModel(pl.LightningModule):
     def __init__(self):
         super().__init__()
 
-    def _training_or_validation_step(
-        self, x, return_model_outputs: bool = False, tag="train"
-    ):
+    def _training_or_validation_step(self, x, return_model_outputs: bool = False, tag="train"):
         """
         batch: The batch data
         tag: either 'Train', 'Validation' , 'Test'
@@ -105,16 +104,14 @@ class BaseModel(pl.LightningModule):
         bce_loss = torch.nn.BCELoss()(y_hat, y)
         msle_loss = MeanSquaredLogError()(y_hat, y)
 
-        loss = mse_loss + mae_loss + 0.1*bce_loss
-        if tag=='val':
+        loss = mse_loss + mae_loss + 0.1 * bce_loss
+        if tag == "val":
             on_step = True
         else:
             on_step = True
 
         self.log(f"mse_{tag}", mse_loss, on_step=on_step, on_epoch=True, prog_bar=True)
-        self.log(
-            f"msle_{tag}", msle_loss, on_step=on_step, on_epoch=True, prog_bar=True
-        )
+        self.log(f"msle_{tag}", msle_loss, on_step=on_step, on_epoch=True, prog_bar=True)
         self.log(f"mae_{tag}", mae_loss, on_step=on_step, on_epoch=True, prog_bar=True)
         self.log(f"bce_{tag}", bce_loss, on_step=on_step, on_epoch=True, prog_bar=True)
 
@@ -157,9 +154,9 @@ class Model(BaseModel):
     def forward(self, x):
         x = batch_to_x(x)
 
-        if baseline == 'persist':
-            out = x[:,-1:].repeat((1,self.output_length))
-        elif baseline == 'zero':
+        if baseline == "persist":
+            out = x[:, -1:].repeat((1, self.output_length))
+        elif baseline == "zero":
             out = torch.zeros((x.shape[0], self.output_length))
 
         out = x[:, -1:].repeat((1, self.output_length))
@@ -175,7 +172,7 @@ trainer = Trainer(
     max_epochs=1,
     limit_val_batches=50,
     log_every_n_steps=5,
-    logger=wandb_logger
+    logger=wandb_logger,
 )
 
 x = batch_to_x(batch)

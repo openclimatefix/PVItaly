@@ -61,9 +61,7 @@ def infer(  # type: ignore[no-any-unimported]
 
     y_hat = np.array(all_y_hat).reshape(-1, y_hat.shape[-1])
     batch = {
-        key: np.squeeze(
-            np.array([b[key] for b in all_batch]).reshape(y_hat.shape[0], -1)
-        )
+        key: np.squeeze(np.array([b[key] for b in all_batch]).reshape(y_hat.shape[0], -1))
         for key in all_batch[0].keys()
     }
 
@@ -86,10 +84,7 @@ def post_process(  # type: ignore[no-any-unimported]
 
     dfw = dfw.assign(
         system=batch[BatchKey.pv_system_row_number],
-        datetime=[
-            datetime.utcfromtimestamp(ts[pv_t0_idx])
-            for ts in batch[BatchKey.pv_time_utc]
-        ],
+        datetime=[datetime.utcfromtimestamp(ts[pv_t0_idx]) for ts in batch[BatchKey.pv_time_utc]],
     )
 
     dfw = dfw.sort_values(by=["datetime", "system"])

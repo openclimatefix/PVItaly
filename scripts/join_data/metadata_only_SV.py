@@ -35,10 +35,10 @@ site_4 = {
     "system_id": 4,
 }
 
-sites = [site_1,site_2,site_3,site_4]
+sites = [site_1, site_2, site_3, site_4]
 sites_df = pd.DataFrame(sites)
 
 pv_metadata = pd.concat([sites_df])
-pv_metadata.reset_index(drop=True,inplace=True)
+pv_metadata.reset_index(drop=True, inplace=True)
 
 pv_metadata.to_csv(pv_metadata_filename_new)

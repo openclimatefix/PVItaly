@@ -18,7 +18,7 @@ from pytorch_lightning.loggers import WandbLogger
 
 logger = logging.getLogger(__name__)
 
-wandb_logger = WandbLogger(project="pv-italy", name='exp-1-pv-sv')
+wandb_logger = WandbLogger(project="pv-italy", name="exp-1-pv-sv")
 
 # set up logging
 logging.basicConfig(
@@ -30,14 +30,13 @@ logging.basicConfig(
 pv_data_pipeline = simple_pv_datapipe("experiments/e001/exp_001.yaml")
 
 
-pv_data_pipeline_validation = simple_pv_datapipe("experiments/e001/exp_001.yaml", tag='validation')
+pv_data_pipeline_validation = simple_pv_datapipe("experiments/e001/exp_001.yaml", tag="validation")
 
 dl = DataLoader(dataset=pv_data_pipeline, batch_size=None)
 pv_iter = iter(dl)
 
 # get a batch
 batch = next(pv_iter)
-
 
 
 def plot(batch, y_hat):
@@ -80,8 +79,8 @@ def batch_to_x(batch):
     # nwp_t0_idx = batch[BatchKey.nwp_t0_idx]
 
     # x,y locations
-    x_osgb = batch[BatchKey.pv_x_osgb] / 10**6
-    y_osgb = batch[BatchKey.pv_y_osgb] / 10**6
+    x_osgb = batch[BatchKey.pv_x_osgb] / 10 ** 6
+    y_osgb = batch[BatchKey.pv_y_osgb] / 10 ** 6
 
     # add pv capacity
     pv_capacity = batch[BatchKey.pv_capacity_watt_power] / 1000
@@ -105,9 +104,7 @@ def batch_to_x(batch):
 
     # history pv
     pv = batch[BatchKey.pv][:, :pv_t0_idx, 0].nan_to_num(0.0)
-    x = torch.concat(
-        (pv, sun, sun_az, x_osgb, y_osgb, pv_capacity, pv_time_utc_fourier), dim=1
-    )
+    x = torch.concat((pv, sun, sun_az, x_osgb, y_osgb, pv_capacity, pv_time_utc_fourier), dim=1)
 
     return x
 
@@ -116,9 +113,7 @@ class BaseModel(pl.LightningModule):
     def __init__(self):
         super().__init__()
 
-    def _training_or_validation_step(
-        self, x, return_model_outputs: bool = False, tag="train"
-    ):
+    def _training_or_validation_step(self, x, return_model_outputs: bool = False, tag="train"):
         """
         batch: The batch data
         tag: either 'Train', 'Validation' , 'Test'
@@ -144,9 +139,7 @@ class BaseModel(pl.LightningModule):
             on_step = True
 
         self.log(f"mse_{tag}", mse_loss, on_step=on_step, on_epoch=True, prog_bar=True)
-        self.log(
-            f"msle_{tag}", msle_loss, on_step=on_step, on_epoch=True, prog_bar=True
-        )
+        self.log(f"msle_{tag}", msle_loss, on_step=on_step, on_epoch=True, prog_bar=True)
         self.log(f"mae_{tag}", mae_loss, on_step=on_step, on_epoch=True, prog_bar=True)
         self.log(f"bce_{tag}", bce_loss, on_step=on_step, on_epoch=True, prog_bar=True)
 
@@ -255,9 +248,7 @@ def infer():
 
     ckpts = sorted(Path("lightning_logs/version_0/checkpoints").glob("*.ckpt"))
     ckpt = list(ckpts)[-1]
-    model = Model.load_from_checkpoint(
-        ckpt, input_length=input_length, output_length=output_length
-    )
+    model = Model.load_from_checkpoint(ckpt, input_length=input_length, output_length=output_length)
 
     y_hat = model(batch)
 
@@ -268,7 +259,6 @@ def infer():
         }
     )
     df.to_csv("experiments/001/pred.csv")
-
 
 
 if __name__ == "__main__":

@@ -31,9 +31,7 @@ def create_ds(path: Path) -> xr.Dataset:
     ds_dp = xr.open_dataset(
         path,
         engine="cfgrib",
-        backend_kwargs={
-            "filter_by_keys": {"typeOfLevel": "surface", "stepType": "avg"}
-        },
+        backend_kwargs={"filter_by_keys": {"typeOfLevel": "surface", "stepType": "avg"}},
     )
     ds_d = ds_dp.dlwrf
     ds_p = ds_dp.prate
@@ -69,13 +67,9 @@ def download_file(
     cookies: Optional[httpx.Cookies] = None,
 ) -> str:
     with tempfile.NamedTemporaryFile(delete=False) as file:
-        with httpx.stream(
-            "GET", url, headers=headers, cookies=cookies, timeout=30
-        ) as res:
+        with httpx.stream("GET", url, headers=headers, cookies=cookies, timeout=30) as res:
             total = int(res.headers["Content-Length"])
-            with tqdm(
-                total=total, unit_scale=True, unit_divisor=1024, unit="B"
-            ) as progress:
+            with tqdm(total=total, unit_scale=True, unit_divisor=1024, unit="B") as progress:
                 num_bytes_downloaded = res.num_bytes_downloaded
                 for chunk in res.iter_bytes():
                     file.write(chunk)

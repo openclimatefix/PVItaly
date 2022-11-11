@@ -3,7 +3,7 @@ import pandas as pd
 pv_metadata_filename = "./data/PVOutput_Italy_systems_metadata.csv"
 pv_metadata_filename_new = "./data/PVOutput_Italy_systems_metadata_with_SV.csv"
 
-pv_metadata = pd.read_csv(pv_metadata_filename,index_col='Unnamed: 0')
+pv_metadata = pd.read_csv(pv_metadata_filename, index_col="Unnamed: 0")
 
 site_1 = {
     "name": "Belluno Hospital",
@@ -37,10 +37,10 @@ site_4 = {
     "system_id": 4,
 }
 
-sites = [site_1,site_2,site_3,site_4 ]
+sites = [site_1, site_2, site_3, site_4]
 sites_df = pd.DataFrame(sites)
 
-pv_metadata = pd.concat([pv_metadata,sites_df])
-pv_metadata.reset_index(drop=True,inplace=True)
+pv_metadata = pd.concat([pv_metadata, sites_df])
+pv_metadata.reset_index(drop=True, inplace=True)
 
 pv_metadata.to_csv(pv_metadata_filename_new)
