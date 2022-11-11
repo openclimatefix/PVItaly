@@ -41,7 +41,7 @@ traces.append(go.Scattermapbox(
         lon = sv_sites['longitude'],
         lat = sv_sites['latitude'],
         mode = 'markers',
-        name='SV demo sites',
+        name='Siram Veolia sites',
         marker=go.scattermapbox.Marker(size=25,color='#ff9736'),
         ))
 traces.append(go.Scattermapbox(

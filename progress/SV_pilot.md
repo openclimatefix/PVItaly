@@ -98,7 +98,7 @@ The table below shows the different metrics for MAE and MSE for the baseline and
 | Zero          | 5.63     | 11.55 | [baseline1](https://wandb.ai/openclimatefix/pv-italy/runs/13xw5y6p)
 | Persist       | 3.89      | 8.11 | [baseline2](https://wandb.ai/openclimatefix/pv-italy/runs/2b2wjxww)
 | PV only       | 1.65      | 3.85 | [pv](https://wandb.ai/openclimatefix/pv-italy/runs/3aix2ijd)
-| PV and NWP    | 1.25      | 0.96  | [pv_nwp](https://wandb.ai/openclimatefix/pv-italy/runs/2ekjl5ld)
+| PV and NWP    | 1.25      | 3.03  | [pv_nwp](https://wandb.ai/openclimatefix/pv-italy/runs/2ekjl5ld)
 
 
 Below shows some example predictions of PV systems. The blue line is the truth and the red line is the forecast. 
