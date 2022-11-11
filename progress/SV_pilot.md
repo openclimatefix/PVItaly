@@ -47,7 +47,7 @@ We have collected GFS data over the whole of Italy, using a 1/4 degree grid. The
 We add the sun's azimuth and elevation angle as a model input. 
 This is highly predictable and clearly has strong correlation with PV production 
 
-We also normalized the data by the PV system maximum production value. 
+We also normalized the data by the PV system capacity value. 
 This normalizes the PV production generation, so all values are between 0 and 1. 
 The NWP variables have also been normalized. 
 
