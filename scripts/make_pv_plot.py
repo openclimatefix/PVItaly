@@ -30,7 +30,7 @@ site_4 = {
 }
 
 sv_sites = pd.DataFrame(data=[site_1,site_2,site_3,site_4])
-pvoutput_org_metadata = pd.read_csv('PVOutput_Italy_systems_metadata.csv')
+pvoutput_org_metadata = pd.read_csv('data/PVOutput_Italy_systems_metadata.csv')
 
 
 sv_sites = sv_sites[['latitude','longitude']]
@@ -42,13 +42,14 @@ traces.append(go.Scattermapbox(
         lat = sv_sites['latitude'],
         mode = 'markers',
         name='SV demo sites',
-        marker=go.scattermapbox.Marker(size=25),
+        marker=go.scattermapbox.Marker(size=25,color='#ff9736'),
         ))
 traces.append(go.Scattermapbox(
         lon = pvoutput_org_metadata['longitude'],
         lat = pvoutput_org_metadata['latitude'],
         mode = 'markers',
         name='pvoutput.org',
+        marker=go.scattermapbox.Marker(color='#086788'),
         ))
 
 fig = go.Figure(data=traces)
