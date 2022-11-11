@@ -8,6 +8,9 @@ from datetime import datetime, timedelta
 df = pd.read_parquet("inference/dfl_001.parquet")
 dfw = pd.read_parquet("inference/dfw_001.parquet")
 
+# option to save to csv
+# dfw.to_csv("inference/dfw_001.csv")
+
 colour_hex = ['#ffd053','#ff9736','#7bcdf3','#4c9a8e','#14120e']
 
 
