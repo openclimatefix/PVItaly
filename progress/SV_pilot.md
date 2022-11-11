@@ -93,12 +93,12 @@ This figure shows how the error between forecast and truth decreases during a se
 
 The table below shows the different metrics for MAE and MSE for the baseline and two different models.
 
-|               | MAE [%]   | MSE [%] | link
+|               | MAE [%]   | RMSE [%] | link
 | -----------   | --------- | --- | --- |
-| Zero          | 10.07     | 4.26 | [baseline1](https://wandb.ai/openclimatefix/pv-italy/runs/13xw5y6p)
-| Persist       | 6.96      | 2.1 | [baseline2](https://wandb.ai/openclimatefix/pv-italy/runs/2b2wjxww)
-| PV only       | 2.95      | 0.474 | [pv](https://wandb.ai/openclimatefix/pv-italy/runs/3aix2ijd)
-| PV and NWP    | 2.24      |  0.0294  | [pv_nwp](https://wandb.ai/openclimatefix/pv-italy/runs/2ekjl5ld)
+| Zero          | 5.63     | 11.55 | [baseline1](https://wandb.ai/openclimatefix/pv-italy/runs/13xw5y6p)
+| Persist       | 3.89      | 8.11 | [baseline2](https://wandb.ai/openclimatefix/pv-italy/runs/2b2wjxww)
+| PV only       | 1.65      | 3.85 | [pv](https://wandb.ai/openclimatefix/pv-italy/runs/3aix2ijd)
+| PV and NWP    | 1.25      | 0.96  | [pv_nwp](https://wandb.ai/openclimatefix/pv-italy/runs/2ekjl5ld)
 
 
 Below shows some example predictions of PV systems. The blue line is the truth and the red line is the forecast. 
